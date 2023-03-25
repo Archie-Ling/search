@@ -1,3 +1,4 @@
+<!-- eslint-disable indent -->
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
@@ -53,12 +54,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
+    /*  const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
       } else {
@@ -71,9 +73,28 @@ export default {
       } else {
         callback()
       }
+    } */
+
+    const options = {
+      method: 'POST',
+      url: 'http://localhost:8081/user/login',
+      params: {
+        creationTime: '',
+        id: '',
+        lastAccessedTime: '',
+        maxInactiveInterval: '',
+        new: '',
+        valueNames: ''
+      },
+      headers: {
+        Accept: '*/*',
+        'Content-Type': 'application/json',
+        'content-type': 'application/json'
+      },
+      data: 'pwd'
     }
     return {
-      loginForm: {
+      /* loginForm: {
         username: 'admin',
         password: '111111'
       },
@@ -83,7 +104,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined
+      redirect: undefined */
+      options
     }
   },
   watch: {
@@ -95,7 +117,7 @@ export default {
     }
   },
   methods: {
-    showPwd() {
+    /* showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
@@ -120,6 +142,13 @@ export default {
           return false
         }
       })
+    }, */
+    login() {
+      axios.request(options).then(function(response) {
+        console.log(response.data)
+      }).catch(function(error) {
+        console.error(error)
+      })
     }
   }
 }
@@ -129,7 +158,7 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
+$bg:#92b6e2;
 $light_gray:#fff;
 $cursor: #fff;
 
@@ -165,7 +194,7 @@ $cursor: #fff;
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(75, 160, 191, 0.1);
     border-radius: 5px;
     color: #454545;
   }
