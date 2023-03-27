@@ -54,13 +54,13 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import { validUsername } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    /*  const validateUsername = (rule, value, callback) => {
+    const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
         callback(new Error('Please enter the correct user name'))
       } else {
@@ -73,28 +73,10 @@ export default {
       } else {
         callback()
       }
-    } */
-
-    const options = {
-      method: 'POST',
-      url: 'http://localhost:8081/user/login',
-      params: {
-        creationTime: '',
-        id: '',
-        lastAccessedTime: '',
-        maxInactiveInterval: '',
-        new: '',
-        valueNames: ''
-      },
-      headers: {
-        Accept: '*/*',
-        'Content-Type': 'application/json',
-        'content-type': 'application/json'
-      },
-      data: 'pwd'
     }
+
     return {
-      /* loginForm: {
+      loginForm: {
         username: 'admin',
         password: '111111'
       },
@@ -104,8 +86,8 @@ export default {
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined */
-      options
+      redirect: undefined
+
     }
   },
   watch: {
@@ -117,7 +99,7 @@ export default {
     }
   },
   methods: {
-    /* showPwd() {
+    showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
       } else {
@@ -142,14 +124,14 @@ export default {
           return false
         }
       })
-    }, */
-    login() {
+    }
+    /*  login() {
       axios.request(options).then(function(response) {
         console.log(response.data)
       }).catch(function(error) {
         console.error(error)
       })
-    }
+    } */
   }
 }
 </script>

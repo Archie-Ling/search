@@ -8,7 +8,8 @@
       <!-- 页面主题内容 -->
       <el-col :span="22">
         <h2>检索页面</h2>
-        <div class="content">
+        <!--<div class="content">
+          //搜索框 --
           <el-row>
             <el-input
               v-model="watchSearch"
@@ -17,6 +18,7 @@
             />
           </el-row>
           <el-divider />
+          //
           <el-table :data="paginationData" style="width: 100%">
             <el-table-column
               prop="id"
@@ -47,12 +49,12 @@
               align="center"
             />
             <el-table-column
-              prop="listTwo"
-              label="listTwo"
+              prop="estype"
+              label="estype"
               align="center"
             />
-            <!--  -->
-            <!-- <el-table-column prop="listFour" label="listFour" align="center"></el-table-column> -->
+
+            // <el-table-column prop="listFour" label="listFour" align="center"></el-table-column> --
             <el-table-column fixed="right" label="操作" align="center">
               <template slot-scope="scope">
                 <el-button
@@ -82,30 +84,88 @@
             @current-change="handleCurrentChange"
           />
         </div>
+      -->
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+        >
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="商品名称">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="所属店铺">
+                  <span>{{ props.row.shop }}</span>
+                </el-form-item>
+                <el-form-item label="商品 ID">
+                  <span>{{ props.row.id }}</span>
+                </el-form-item>
+                <el-form-item label="店铺 ID">
+                  <span>{{ props.row.shopId }}</span>
+                </el-form-item>
+                <el-form-item label="商品分类">
+                  <span>{{ props.row.category }}</span>
+                </el-form-item>
+                <el-form-item label="店铺地址">
+                  <span>{{ props.row.address }}</span>
+                </el-form-item>
+                <el-form-item label="商品描述">
+                  <span>{{ props.row.desc }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="商品 ID"
+            prop="id"
+          />
+          <el-table-column
+            label="商品名称"
+            prop="name"
+          />
+          <el-table-column
+            label="描述"
+            prop="desc"
+          />
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination
+          :current-page="currentPage4"
+          :page-sizes="[5,10,15,20]"
+          :page-size="5"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="20"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
+
+import axios from 'axios'
 export default {
 
   data() {
     return {
-      radio: '1',
+      tableData: []
+      /* radio: '1',
       isCollapse: false,
       activeIndex: '1',
-      tableData: [
-        {
-          id: '1',
-          listOne: '慢性阻塞性肺疾病患者自我管理水平及影响因素研究',
+      tableData: [],
+      {
+          id: '',
+          listOne: '',
           listTwo: '2',
           digest_one:
                   '2COPD患者作为调查对象。使用抑郁自评量表、社会支持量表、COPD患者生活质量调查表及自编的COPD患者自我管理量表对其进行调查',
           keypage: '1 5 7 9',
           keyscore: '5.2312',
           add_time: '2023-02-16'
-        },
-        {
+        }],
+       {
           id: '2',
           listOne: 'boy',
           listTwo: '2',
@@ -211,10 +271,10 @@ export default {
       pagesize: 5, // 每页数据
       searchContent: '', // 搜索内容
       stashList: [],
-      watchSearch: ''
+      watchSearch: ''*/
     }
   },
-  watch: {
+  /* watch: {
     watchSearch: {
       handler(newValue, oldValue) {
         const self = this
@@ -230,17 +290,33 @@ export default {
       },
       deep: true
     }
-  },
+  }, */
   created() {
     this.getList()
   },
   methods: {
     getList() {
       // 一般这里会有一个axios请求
-      this.handleCurrentChange(this.currentPage)
-      this.stashList = this.tableData // 暂存数组  当搜索为空时候  数组展示所有数据
+      axios.get('http://127.0.0.1:65324/doc.json')
+        .then(response => {
+          this.tableData = response.data.data.data1
+          console.log(this.tableData)
+          console.log(' 成功 ')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      // this.handleCurrentChange(this.currentPage)
+      // this.stashList = this.tableData // 暂存数组  当搜索为空时候  数组展示所有数据
     },
     handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+    }
+  }
+  /* handleSizeChange(val) {
       this.pagesize = val
       this.tableList()
     },
@@ -285,8 +361,20 @@ export default {
         message: '已收藏',
         type: 'success'
       })
-    }
-  }
-
+    } */
 }
 </script>
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>
