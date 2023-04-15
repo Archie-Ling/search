@@ -10,17 +10,17 @@
         <el-col :span="22">
           <h2>个人中心</h2>
           <el-divider />
-          <div class="content" style="color:white;">.</div>
+          <!--          <div class="content" style="color:white;">.</div>-->
           <!-- 个人信息 -->
-          <el-row>
-            <el-col :span="1"><div><p style="color:white;">.</p></div></el-col>
+          <el-row class="clock">
+            <!--            <el-col :span="1"><div><p style="color:white;">.</p></div></el-col>-->
             <el-col :span="5">
               <div class="user-avatar">
                 <el-avatar :size="150" :src="require('@/icons/svg/logo.png')" />
               </div>
             </el-col>
             <el-col :span="16">
-              <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>
+              <!--              <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>-->
               <div class="user-details">
                 <div class="user-id">用户ID: {{ userInfo.userId }}</div><br>
                 <!-- <div class="user-id">用户名: {{ userInfo.username }}</div><br> -->
@@ -28,11 +28,13 @@
                 <div class="user-points"> 积  分  : {{ userInfo.userPoints }}</div><br>
                 <div class="user-points"> 容  量  : {{ userInfo.userCapacity }}</div>
               </div>
-              <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>
+              <!--              <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>-->
               <!-- 购买积分按钮 点击后跳转到购买页面buy.vue -->
-              <el-button type="">
-                <router-link to="/buy/buy">购买积分</router-link>
-              </el-button>
+              <div style="">
+                <el-button type="">
+                  <router-link to="/buy/buy">购买积分</router-link>
+                </el-button>
+              </div>
             </el-col>
           </el-row>
         </el-col>
@@ -79,35 +81,12 @@ export default {
   }
 }
 </script>
-<style scoped>
-.user-profile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+<style>
+.clock{
+  /*background-color: #005dba;*/
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.user-avatar {
-  margin: 0 auto;
-}
-
-.user-info {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.user-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.user-email, .user-phone {
-  margin-bottom: 10px;
-}
-
-.user-actions {
-  margin-top: 20px;
-  text-align: center;
-}
-
+</style>

@@ -24,8 +24,8 @@ export default {
   },
   data() {
     return {
-      title: '医疗文献智能检索系统',
-      logo: 'public/favicon.ico'
+      title: '医 寻',
+      logo: require('@/assets/img.png')
     }
   }
 }
@@ -42,12 +42,13 @@ export default {
 }
 
 .sidebar-logo-container {
+  padding-left: 10%;
   position: relative;
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
-  text-align: center;
+  background: #fafafa;
+  //text-align: center;
   overflow: hidden;
 
   & .sidebar-logo-link {
@@ -64,10 +65,10 @@ export default {
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #fff;
+      color: #0091d5;
       font-weight: 600;
       line-height: 50px;
-      font-size: 14px;
+      font-size: 16px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
     }
