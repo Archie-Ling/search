@@ -13,10 +13,13 @@
         <el-divider />
         <!-- elementUI 可选择表格 -->
         <el-table
+          ref="multipleTable"
           :data="tableData"
           style="width: 100%"
+          :height="tableHeight"
           border
           @selection-change="handleSelectionChange"
+
         >
           <!-- 表格第一列为docId -->
           <el-table-column
@@ -26,35 +29,36 @@
           <el-table-column
             prop="pdfId"
             label="id"
-            width="180"
+            width="55"
           />
           <el-table-column
             prop="pdfTitle"
             label="文献名"
-            width="180"
-          />
-          <el-table-column
-            prop="pdfAuthor"
-            label="作者"
-            width="180"
+            show-overflow-tooltip="true"
+            min-width="160"
           />
           <!-- 表格最后一列为操作,有跳转到文献详情界面detail.vue,有移动到另一个文件夹操作 -->
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="150">
             <template slot-scope="scope">
-              <!-- 详情按钮 点击按钮跳转到detail.vue页面 -->
+              <!-- 编辑按钮 点击按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改 -->
               <el-button
                 size="mini"
                 type="primary"
-                @click="handleDetail(scope.$index, scope.row)"
-              >详情</el-button>
-              <!-- 移动按钮 点击按钮跳转到file.vue页面 -->
-              <el-button
+                @click="handleEdit(scope.$index, scope.row)"
+              >编辑</el-button>
+              <!-- 移动按钮 点击按钮弹窗显示请求后端显示文件夹信息 -->
+              <!-- <el-button
                 size="mini"
                 type="success"
                 @click="handleMove(scope.$index, scope.row)"
-              >移动</el-button>
+              >移动</el-button> -->
             </template>
           </el-table-column>
+          <el-table-column
+            prop="pdfAuthor"
+            label="作者"
+            width="80"
+          />
         </el-table>
         <!-- 分页显示 -->
         <el-pagination
@@ -62,6 +66,28 @@
           layout="prev, pager, next"
           :total="total"
         />
+        <!-- 点击编辑按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改-->
+        <el-dialog
+          title="编辑数据"
+          :visible.sync="showEditDialog"
+          width="30%"
+        >
+          <el-form :model="editData" label-width="80px">
+            <el-form-item label="docId">
+              <el-input v-model="editData.docId" ></el-input>
+            </el-form-item>
+            <el-form-item label="pdfId">
+              <el-input v-model="editData.pdfId" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="pdfTitle">
+              <el-input v-model="editData.pdfTitle"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="showEditDialog = false">取 消</el-button>
+            <el-button type="primary" @click="handleEditSubmit">确 定</el-button>
+          </span>
+        </el-dialog>
       </el-col>
     </el-row>
   </div>
@@ -74,14 +100,29 @@ export default {
     return {
       // 从file.vue页面传递过来的参数
       docId: '',
-      userId: '',
+      userId: '3',
       // 表格数据
       tableData: [
       ],
       // 选中的数据
       multipleSelection: [],
       // 总页数
-      total: ''
+      total: '',
+      // 当前页
+      currentPage: 1,
+      // 每页显示的条数
+      pageSize: 10,
+      // 编辑对话框是否显示
+      showEditDialog: false,
+      // 编辑对话框中的数据
+      editData: {
+        index: 0,
+        docId: '',
+        pdfId: '',
+        pdfTitle: '',
+        newDocId:''
+      }
+
     }
   },
   mounted() {
@@ -126,13 +167,54 @@ export default {
       this.multipleSelection = val
     },
     // 移动
-    handleDelete() {
-      console.log(this.multipleSelection)
+    /* handleMove() {
+      // 使用axios通过后端api实现弹窗显示文件夹信息，点击文件夹可以将改该文献移动到文件夹里
+    }, */
+    // 编辑 使用axios post从后端api编辑一行数据 使用query传参,在点完编辑按钮后弹出窗口进行编辑
+    handleEdit(index, row) {
+      console.log('编辑')
+      console.log(index)
+      console.log(row)
+      // 将点击的行的数据赋值给editData
+      this.editData.index = index
+      this.editData.docId = row.docId
+      this.editData.pdfId = row.pdfId
+      this.editData.pdfTitle = row.pdfTitle
+      // 将弹窗显示
+      this.showEditDialog = true
     },
-    // 详情
-    handleDetail() {
-      console.log(this.multipleSelection)
+    // 编辑提交
+    handleEditSubmit() {
+      console.log('编辑提交')
+      console.log(this.editData)
+      console.log(this.userId)
+      // 使用axios post 从后端api编辑一行数据 使用query传参
+      const url = 'http://192.168.43.61:8081/file/update'
+      axios({
+        method: 'post',
+        url: url,
+        query: {
+          docId: this.editData.docId,
+          pdfId: this.editData.pdfId,
+          pdfTitle: this.editData.pdfTitle,
+          userId: this.userId,
+          newDocId: ''
+        }
+      }).then(res => {
+        console.log(res)
+        // 将获取到的数据赋值给tableData
+        console.log('成功')
+        console.log(res.data)
+        // 将弹窗隐藏
+        this.showEditDialog = false
+        // 将修改后的数据赋值给tableData
+        this.tableData[this.editData.index].pdfTitle = this.editData.pdfTitle
+      }).catch(err => {
+        console.log('失败')
+        console.log(err)
+      })
     }
+
   }
 }
 </script>

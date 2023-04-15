@@ -79,35 +79,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-.user-profile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.user-avatar {
-  margin: 0 auto;
-}
-
-.user-info {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.user-name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.user-email, .user-phone {
-  margin-bottom: 10px;
-}
-
-.user-actions {
-  margin-top: 20px;
-  text-align: center;
-}
 
