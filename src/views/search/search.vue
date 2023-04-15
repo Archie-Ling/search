@@ -3,7 +3,7 @@
     <!-- 头部导航栏 -->
     <el-row class="tac">
       <el-col :span="1">
-        <div><p /></div>
+        <div><p>.</p></div>
       </el-col>
       <!-- 页面主题内容 -->
       <el-col :span="22">
@@ -84,8 +84,8 @@
             @current-change="handleCurrentChange"
           />
         </div>
-      -->
-        <el-table
+        -->
+        <!-- <el-table
           :data="tableData"
           style="width: 100%"
         >
@@ -128,14 +128,98 @@
             label="描述"
             prop="desc"
           />
-        </el-table>
+        </el-table> -->
         <!-- 分页 -->
-        <el-pagination
+        <!-- <el-pagination
           :current-page="currentPage4"
           :page-sizes="[5,10,15,20]"
           :page-size="5"
           layout="total, sizes, prev, pager, next, jumper"
           :total="20"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        /> -->
+        <!-- <el-input v-model="searchText" placeholder="请输入关键字" /> -->
+        <!-- 分页 -->
+        <!-- <el-pagination :current-page.sync="currentPage" :page-sizes="[10, 20, 30, 50]" :page-size="pageSize" :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" /> -->
+        <!-- <el-row>
+          <el-col :span="20">
+            <el-input v-model="searchContent" size="small" placeholder="enter或按钮搜索" @keyup.enter.native="search" />
+          </el-col>
+          <el-col :span="1"><div>.</div></el-col>
+          <el-col :span="2">
+            <el-button type="primary" size="small" @click="search">搜索</el-button>
+          </el-col>
+        </el-row>
+        <el-divider /> -->
+        <!-- <el-row>
+          <el-input v-model="watchSearch" placeholder="watch监听搜索" size="small" />
+        </el-row> -->
+        <!--
+        <el-table
+          :data="paginationData"
+          border
+          style="width: 100%;"
+        >
+          <el-table-column
+            prop="id"
+            label="id"
+            align="center"
+          />
+          <el-table-column
+            prop="listOne"
+            label="listOne"
+            align="center"
+          />
+          <el-table-column
+            prop="listTwo"
+            label="listTwo"
+            align="center"
+          />
+          <el-table-column
+            prop="listThree"
+            label="listThree"
+            align="center"
+          />
+          <el-table-column
+            prop="listFour"
+            label="listFour"
+            align="center"
+          />
+          <el-table-column
+            prop="listFive"
+            label="listFive"
+            align="center"
+          />
+          <el-table-column
+            prop="listSix"
+            label="listSix"
+            align="center"
+          />
+        </el-table>
+        -->
+        <el-row>
+          <el-col :span="18">
+            <el-input v-model="searchText" placeholder="请输入搜索内容" /></el-col>
+          <el-col :span="4" offset="1">
+            <el-button type="primary" @click="search()">搜索</el-button></el-col>
+        </el-row>
+        <el-divider />
+        <el-table :data="tableData" @row-click="handleRowClick">
+          <el-table-column prop="title" label="文章标题" />
+          <el-table-column prop="pdfPages" label="页数" />
+          <el-table-column prop="score" label="得分(按内容相关度排序)" sortable />
+          <el-table-column prop="createtime" label="时间(按时间排序)" sortable />
+          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination
+          :current-page="currentPage"
+          :page-sizes="[5, 10, 15, 20]"
+          :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          style="margin:10px 0"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -144,143 +228,145 @@
   </div>
 </template>
 <script>
-
 import axios from 'axios'
 export default {
-
   data() {
     return {
-      tableData: []
-      /* radio: '1',
-      isCollapse: false,
-      activeIndex: '1',
-      tableData: [],
-      {
-          id: '',
-          listOne: '',
-          listTwo: '2',
-          digest_one:
-                  '2COPD患者作为调查对象。使用抑郁自评量表、社会支持量表、COPD患者生活质量调查表及自编的COPD患者自我管理量表对其进行调查',
-          keypage: '1 5 7 9',
-          keyscore: '5.2312',
-          add_time: '2023-02-16'
-        }],
-       {
-          id: '2',
-          listOne: 'boy',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '3',
-          listOne: 'six',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '4',
-          listOne: 'sun',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '5',
-          listOne: 'girl',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '5',
-          listOne: 'one',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '6',
-          listOne: 'two',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '7',
-          listOne: 'three',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '8',
-          listOne: 'five',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '9',
-          listOne: 'six',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '10',
-          listOne: 'seven',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '11',
-          listOne: '1',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
+      searchText: '',
+      tableData: [], // 表格数据
+      currentPage: 1, // 当前页
+      pagesize: 5, // 每页显示条数
+      total: 0, // 总条数
+      showAddressColumn: false
+
+    }
+  },
+  methods: {
+    // 分页组件连接后端api
+    handleSizeChange(val) {
+      this.pagesize = val
+      this.search()
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.search()
+    },
+    // 表格行点击事件 并带参跳转到details.vue页面
+    handleRowClick(row) {
+      this.$router.push({
+        path: '/details/details',
+        query: {
+          title: row.title,
+          pdfPages: row.pdfPages,
+          score: row.score,
+          createtime: row.createtime,
+          pdfId: row.pdfId,
+          searchString: this.searchText
         }
-      ],
+      })
+      console.log('跳转到详情页')
+    },
+
+    // 搜索
+    search() {
+      // 调用后端API接口进行搜索
+      const searchString = this.searchText
+      const pageNo = 0
+      const pageSize = 5
+      const userId = 0
+      const docId = 0
+      const searchType = 1
+      const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
+
+      axios.get(url, {
+        params: {
+          searchString: this.searchText
+        }
+      }).then(response => {
+        // 处理搜索结果
+        this.tableData = response.data.data
+        console.log(this.tableData)
+      }).catch(error => {
+        // 处理错误
+        console.log(error)
+      })
+      console.log('搜索' + this.searchText)
+      console.log(searchString + pageNo + pageSize + userId + docId + searchType)
+      console.log(url + 'url')
+    }
+    /* handleRowClick(row) {
+      // 在这里处理点击行事件，可以跳转到详情页面并将数据传递给详情页面
+      this.$router.push('/details/details', {
+        name: 'details',
+        path: '/details',
+        params: {
+          title: row.title,
+          pdfPages: row.pdfPages,
+          score: row.score,
+          createtime: row.createtime
+        }
+      })
+    } */
+  }
+  /* data() {
+    return {
+      searchText: '',
+      tableData: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
+    }
+  },
+  mounted() {
+    this.getTableData()
+  },
+  methods: {
+    // 获取表格数据
+    getTableData() {
+      // 发送异步请求获取数据，将结果赋值给tableData和total
+      axios.get('http://127.0.0.1:59381/doc.json', {
+        params: {
+          searchText: this.searchText,
+          currentPage: this.currentPage,
+          pageSize: this.pageSize
+        }
+      }).then(res => {
+        this.tableData = res.data.data.list
+        this.total = res.data.data.total
+        console.log(this.tableData)
+        console.log('成功')
+      })
+    },
+    // 处理分页大小改变事件
+    handleSizeChange(newSize) {
+      this.pageSize = newSize
+      this.getTableData()
+    },
+    // 处理当前页码改变事件
+    handleCurrentChange(newPage) {
+      this.currentPage = newPage
+      this.getTableData()
+    }
+  } */
+  /* data() {
+    return {
+      tableData: [],
       total: 0, // 数组总数
       currentPage: 1, // 当前页
       paginationData: [], // 分页数组
       pagesize: 5, // 每页数据
       searchContent: '', // 搜索内容
       stashList: [],
-      watchSearch: ''*/
+      watchSearch: ''
     }
   },
-  /* watch: {
+  watch: {
     watchSearch: {
       handler(newValue, oldValue) {
         const self = this
         if (newValue) {
           // 这里要从暂存的所有数据中过滤 放到展示的数组中
-          self.tableData = self.stashList.filter((item) => {
+          self.tableData = self.stashList.filter(item => {
             return item.listOne.includes(newValue)
           })
         } else {
@@ -290,35 +376,30 @@ export default {
       },
       deep: true
     }
-  }, */
-  created() {
+  },
+  mounted() {
     this.getList()
   },
   methods: {
     getList() {
       // 一般这里会有一个axios请求
-      axios.get('http://127.0.0.1:65324/doc.json')
-        .then(response => {
-          this.tableData = response.data.data.data1
-          console.log(this.tableData)
-          console.log(' 成功 ')
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      // this.handleCurrentChange(this.currentPage)
-      // this.stashList = this.tableData // 暂存数组  当搜索为空时候  数组展示所有数据
+      axios.get('http://someoneyou.top:8082/search/{searchString}/{pageNo}/{pageSize}/0/{searchType}').then(res => {
+        this.tableData = res.data
+        this.paginationData = res.data.data
+        // this.tableData = this.paginationData
+        // this.total = res.data.data.total
+        // self.stashList = self.tableData
+        console.log(this.tableData)
+        console.log('成功')
+      })
+      this.handleCurrentChange(this.currentPage)
+      this.stashList = this.tableData // 暂存数组  当搜索为空时候  数组展示所有数据
+      console.log(this.stashList)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
-    }
-  }
-  /* handleSizeChange(val) {
       this.pagesize = val
       this.tableList()
+      console.log(this.pagesize)
     },
     handleCurrentChange(val) {
       this.currentPage = val
@@ -326,55 +407,49 @@ export default {
     },
     tableList() {
       this.paginationData = [] // 分页数组  tableData 所有的数据
-      for (
-        var j = this.pagesize * (this.currentPage - 1);
-        j < this.pagesize * this.currentPage;
-        j++
-      ) {
+      for (var j = this.pagesize * (this.currentPage - 1); j < this.pagesize * this.currentPage; j++) {
         if (this.tableData[j]) {
           this.paginationData.push(this.tableData[j])
         }
       }
       this.total = this.tableData.length
-    },
-    search() {
+      console.log('test')
+      console.log(this.paginationData)
+      console.log(this.total)
+    }, */
+  /* search() {
       if (this.searchContent) {
         this.tableData = this.stashList // 解决评论第一条bug
-        this.tableData = this.tableData.filter((item) => {
+        this.tableData = this.tableData.filter(item => {
           return item.listOne.includes(this.searchContent)
         })
       } else {
         this.tableData = this.stashList
+        console.log('搜索')
+        console.log(this.tableData)
       }
       this.tableList()
-    },
-    goToDetails(row) {
-      // 将当前行的数据传递到页面
-      this.$router.push({ path: '/details/details', query: row })
-      console.log(row)
-    },
-    addToFavorites(row) {
-      // 将当前行的数据传递到收藏页面
-      this.$router.push({ path: '/file/file', query: row })
-      console.log(row)
-      this.$message({
-        message: '已收藏',
-        type: 'success'
-      })
     } */
+  // 搜索功能实现
+  /*  search() {
+      if (this.searchContent) {
+        this.tableData = this.stashList // 解决评论第一条bug
+        this.tableData = this.tableData.filter(item => {
+          return item.listOne.includes(this.searchContent)
+        })
+      } else {
+        this.tableData = this.stashList
+        console.log('搜索')
+        console.log(this.tableData)
+      }
+      this.tableList()
+    }
+
+  } */
+
 }
+
 </script>
 <style>
-  .demo-table-expand {
-    font-size: 0;
-  }
-  .demo-table-expand label {
-    width: 90px;
-    color: #99a9bf;
-  }
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 50%;
-  }
+
 </style>

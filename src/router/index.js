@@ -12,7 +12,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/register',
+    component: () => import('@/views/register/register'),
+    meta: { requiresAuth: false }
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -69,21 +73,78 @@ export const constantRoutes = [
       }
     ]
   },
-
+  /* {
+    path: '/filedetail/filedetail',
+    component: () => import('@/views/filedetail/filedetail'),
+    name: '文件夹详情',
+    meta: { title: '文件夹详情' },
+    hidden: true
+  }, */
   {
     path: '/details',
     component: Layout,
-    hidden: true,
     children: [
       {
         path: 'details',
-        name: '详情',
+        name: '文献详情',
         component: () => import('@/views/details/details'),
-        meta: { title: '详情', icon: '' }
+        meta: { title: '文献详情', icon: 'file' },
+        hidden: true
       }
     ]
   },
-
+  {
+    path: '/filedetail',
+    component: Layout,
+    children: [
+      {
+        path: 'filedetail',
+        name: '文件夹详情',
+        component: () => import('@/views/filedetail/filedetail'),
+        meta: { title: '文件夹详情', icon: 'file' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/pdf',
+    component: Layout,
+    children: [
+      {
+        path: 'pdf',
+        name: 'pdf详情',
+        component: () => import('@/views/pdf/pdf'),
+        meta: { title: 'pdf详情', icon: 'file' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    children: [
+      {
+        path: 'user',
+        name: '用户详情',
+        component: () => import('@/views/user/user'),
+        meta: { title: '用户详情', icon: 'user' },
+        hidden: true
+      }
+    ]
+  },
+  {
+    path: '/buy',
+    component: Layout,
+    children: [
+      {
+        path: 'buy',
+        name: '购买积分',
+        component: () => import('@/views/buy/buy'),
+        meta: { title: '购买积分', icon: 'user' },
+        hidden: true
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

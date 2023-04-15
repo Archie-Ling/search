@@ -3,60 +3,57 @@
     <!-- 头部导航栏 -->
     <el-row class="tac">
       <el-col :span="1">
-        <div><p></p></div>
+        <div><p /></div>
       </el-col>
       <!-- 页面主题内容 -->
       <el-col :span="22">
         <h2>上传分析</h2>
         <div class="content">
           <!-- 上传 https://jsonplaceholder.typicode.com/posts/-->
+          <!-- 点击上传后，将文件上传到服务器，服务器返回文件名，再将文件名pdfTitle和userId传回后端，后端返回pdfId,再将pdfId和userId返回后端 -->
           <el-upload
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://192.168.43.61:8081/file/temp"
             accept=".pdf"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
+            :on-error="handleAvatarError"
+            :on-success="handleAvatarSuccess"
+            :get-messages="getMessages"
             multiple
-            :limit="3"
+            :limit="50"
             :on-exceed="handleExceed"
             :file-list="fileList"
           >
             <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">可批量上传PDF文件</div>
+            <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
-          <!-- 搜索 -->
           <el-divider />
-          <el-row>
-            <el-input
-              v-model="watchSearch"
-              placeholder="请输入文章名"
-              size="small"
-            />
-          </el-row>
-          <el-divider />
-          <!-- :data="paginationData" -->
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="listOne" label="文章名" />
-            <el-table-column
-              prop="state"
-              label="状态"
-              align="center"
-            />
-            <el-table-column fixed="right" label="操作" align="center">
-              <template slot-scope="scope">
-                <!-- <el-button v-if="!scope.row.isEgdit" type="primary" size="small" @click="edit(scope.$index,scope.row)" icon="el-icon-edit"></el-button> -->
-                <!-- <el-button v-if="scope.row.isEgdit" type="success" size="small" @click='editSuccess(scope.$index,scope.row)' icon="el-icon-check" ></el-button> -->
-                <el-button
-                  type="danger"
-                  size="small"
-                  icon="el-icon-delete"
-                  @click="deleteRow(scope.$index)"
-                />
-              </template>
-            </el-table-column>
-          </el-table>
-
+          <!-- <el-upload
+            class="upload-demo"
+            action="http://192.168.43.61:8081/file/temp"
+            accept=".pdf"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :on-error="handleAvatarError"
+            :on-success="handleAvatarSuccess"
+            multiple
+            :limit="50"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
+          </el-upload>
+          <el-divider /> -->
+          <!-- “识别”按钮 点击后变成disabled样式持续3秒，并弹出提示：正在识别中，请稍后，在7秒之后弹出提示：识别已完成 -->
+          <el-button
+            type="primary"
+            :disabled="isDisabled"
+            @click="handleDelete"
+          >识别</el-button>
         </div>
       </el-col>
     </el-row>
@@ -64,6 +61,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -76,114 +74,148 @@ export default {
           listOne: '慢性阻塞性肺疾病患者自我管理水平及影响因素研究',
           state: '已分析',
           add_time: '2023-02-16'
-        },
-        {
-          id: '2',
-          listOne: 'boy',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '3',
-          listOne: 'six',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
-        },
-        {
-          id: '4',
-          listOne: 'sun',
-          listTwo: '2',
-          listThree: '3',
-          listFour: '4',
-          listFive: '5',
-          listSix: '6'
         }
-
       ],
-      total: 0, // 数组总数
-      currentPage: 1, // 当前页
-      paginationData: [], // 分页数组
-      pagesize: 5, // 每页数据
-      searchContent: '', // 搜索内容
-      stashList: [],
-      watchSearch: '',
       fileList: [
         // 上传文件展示
-        {
-          name: '慢性阻塞性肺疾病患者自我管理水平及影响因素研究.pdf'
-        },
-        {
-          name: '42.pdf'
-        }
-      ]
-    }
-  },
-  watch: {
-    watchSearch: {
-      handler(newValue, oldValue) {
-        const self = this
-        if (newValue) {
-          // 这里要从暂存的所有数据中过滤 放到展示的数组中
-          self.tableData = self.stashList.filter((item) => {
-            return item.listOne.includes(newValue)
-          })
-        } else {
-          self.tableData = self.stashList
-        }
-        self.tableList()
-      },
-      deep: true
+      ],
+      isDisabled: false,
+      pdfTitle: '',
+      userId: '3',
+      pdfId: '',
+      file: '',
+      formData: new FormData()
+
     }
   },
   created() {
-    this.getList()
+    this.userId = 3
   },
   methods: {
-    getList() {
-      // 一般这里会有一个axios请求
-      this.handleCurrentChange(this.currentPage)
-      this.stashList = this.tableData // 暂存数组  当搜索为空时候  数组展示所有数据
-    },
-    handleSizeChange(val) {
-      this.pagesize = val
-      this.tableList()
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val
-      this.tableList()
-    },
-    tableList() {
-      this.paginationData = [] // 分页数组  tableData 所有的数据
-      for (
-        var j = this.pagesize * (this.currentPage - 1);
-        j < this.pagesize * this.currentPage;
-        j++
-      ) {
-        if (this.tableData[j]) {
-          this.paginationData.push(this.tableData[j])
-        }
-      }
-      this.total = this.tableData.length
-    },
-
-    goUrl(url) {
-      // 跳转页面覆盖当前页面
-      window.open(url, '_self')
-    },
-    deleteRow(index) {
-      // 要删除的行号，这里删除第二行
-      this.tableData.splice(index, 1)
+    handleAvatarSuccess(res, file, fileList) {
+      this.fileList = fileList
+      // 上传成功钩子函数
+      console.log('res', res)
+      console.log('file', file)
+      console.log('fileList', fileList)
+      // 上传成功后，服务端返回文件名
+      this.pdfTitle = res.data
+      console.log(this.pdfTitle)
+      console.log('成功返回文件名')
+      // 将文件名pdfTitle和userId传回后端，后端返回pdfId
+      axios.post('http://192.168.43.61:8081/file/upload', {
+        pdfTitle: this.pdfTitle,
+        userId: this.userId
+      }).then(
+        (res) => {
+          this.pdfId = res.data
+          console.log(res.data)
+          console.log(this.pdfId)
+          console.log('成功返回pdfId')
+          // 将pdfId和userId返回后端
+          axios.post('http://192.168.43.61:8081/file/analyze/structure'
+            , {
+              pdfId: this.pdfId,
+              userId: this.userId
+            }).then(
+            (res) => {
+              console.log(res.data)
+              console.log('成功返回pdfId和userId')
+            }
+          ).catch(
+            (err) => {
+              console.log(err)
+              console.log('失败返回pdfId和userId')
+            }
+          )
+        })
+      // 上传成功后，弹出提示 上传成功
       this.$message({
-        message: '删除成功',
+        message: '上传成功',
         type: 'success'
       })
+    },
+    handleAvatarError(err, file, fileList) {
+      // 上传失败钩子函数
+      console.log('err', err)
+      console.log('file', file)
+      console.log('fileList', fileList)
+      console.log('err', JSON.parse(err.message))
+      if (file.status === 'fail') {
+        this.$message.error(JSON.parse(err.message).message)
+      }
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 50 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      )
+    },
+    handleDelete() {
+      this.isDisabled = true
+      this.$message({
+        message: '正在识别中，请稍后',
+        type: 'warning'
+      })
+      setTimeout(() => {
+        this.$message({
+          message: '识别已完成',
+          type: 'success'
+        })
+        this.isDisabled = false
+      }, 4000)
     }
+    // 点击上传后，将文件上传到服务器，服务器返回文件名,再将文件名pdfTitle和userId传回后端，后端返回pdfId,再将pdfId和userId返回后端
+    /* getMessage() {
+      axios.post('http://192.168.43.61:8081/file/temp').then(
+        (res) => {
+          this.pdfTitle = res.data.data
+          console.log(res.data)
+          console.log(this.pdfTitle)
+          console.log(res)
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+      axios
+        .post('http://192.168.43.61:8081/file/upload', {
+          pdfTitle: this.pdfTitle,
+          userId: this.userId
+        })
+        .then(
+          (res) => {
+            this.pdfId = res.data.data.pdfId
+            console.log(res)
+          },
+          (err) => {
+            console.log(err)
+          }
+        )
+      axios.get('http://192.168.43.61:8081/file/analyze/structure', {
+        params: {
+          pdfId: this.pdfId,
+          userId: this.userId
+        }
+      }).then(
+        (res) => {
+          console.log(res)
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
+    } */
   }
 }
 </script>
