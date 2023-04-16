@@ -34,22 +34,22 @@
           </template>
         </el-skeleton>
 
-<!--        <el-table :data="tableData" @row-click="handleRowClick">-->
-<!--          <el-table-column prop="title" label="文章标题" />-->
-<!--          <el-table-column prop="pdfPages" label="页数" />-->
-<!--          <el-table-column prop="score" label="内容相关度" sortable />-->
-<!--          <el-table-column prop="createtime" label="上传时间" sortable />-->
-<!--          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />-->
-<!--        </el-table>-->
-<!--        &lt;!&ndash; 分页 &ndash;&gt;-->
-<!--        <el-pagination-->
-<!--          background-->
-<!--          layout="prev, pager, next"-->
-<!--          :total="total"-->
-<!--          style="margin:10px 0;text-align: center"-->
-<!--          @size-change="handleSizeChange"-->
-<!--          @current-change="handleCurrentChange"-->
-<!--        />-->
+        <el-table :data="tableData" @row-click="handleRowClick">
+          <el-table-column prop="title" label="文章标题" />
+          <el-table-column prop="pdfPages" label="页数" />
+          <el-table-column prop="score" label="内容相关度" sortable />
+          <el-table-column prop="createtime" label="上传时间" sortable />
+          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="total"
+          style="margin:10px 0;text-align: center"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </el-col>
     </el-row>
   </div>
@@ -98,7 +98,7 @@ export default {
       const pageSize = 10
       const userId = 3
       const docId = 0
-      const searchType = this.searchType
+      const searchType = 1
       const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
 
       axios.get(url, {
@@ -123,7 +123,7 @@ export default {
     },
     // 搜索框回车事件
     enterSearch() {
-      this.search()
+      // this.search()
     }
     // 分页组件连接后端api
 

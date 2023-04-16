@@ -9,7 +9,7 @@
         <el-col :span="22">
           <h2>购买积分</h2>
           <el-divider />
-          <span>点击商品进行购买</span>
+          <span>请点击商品进行购买</span>
           <div class="content" style="color:white;">.</div>
           <!-- el-table 分页显示bizId,bizPrice,bizPoint,bizStatus 每页显示数量size和总数total从后端获取 然后将后端传回的数据分页显示在表格中 -->
           <el-table
@@ -21,20 +21,12 @@
             @row-click="handleRowClick"
           >
             <el-table-column
-              prop="bizId"
-              label="商品ID"
-            />
-            <el-table-column
               prop="bizPrice"
               label="商品价格"
             />
             <el-table-column
               prop="bizPoint"
               label="商品积分"
-            />
-            <el-table-column
-              prop="bizStatus"
-              label="商品状态"
             />
           </el-table>
           <el-pagination
@@ -52,10 +44,23 @@
             :visible.sync="dialogVisible"
             width="30%"
           >
-            <img :src="bizImg" alt="" style="width: 100%; height: 100%;">
+            <!--            <img :src="bizImg" alt="" style="width: 100%; height: 100%;">-->
+            <div>即将生成订单，请确认是否需要购买</div>
             <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              <el-button type="primary" @click="generateOrder">确 定</el-button>
+            </span>
+          </el-dialog>
+
+          <el-dialog
+            title="支付订单"
+            :visible.sync="orderVisible"
+            width="20%"
+            style="align-items: center;text-align: center"
+          >
+            <img :src="bizImg" alt="" style="text-align: center">
+            <span slot="footer" class="dialog-footer">
+              <el-button  @click="orderVisible = false">支 付 取 消</el-button>
             </span>
           </el-dialog>
         </el-col>
@@ -77,6 +82,7 @@ export default {
       userId: '',
       bizImg: '',
       dialogVisible: false,
+      orderVisible: false,
       dialogImageUrl: ''
     }
   },
@@ -84,6 +90,35 @@ export default {
     this.getBizList()
   },
   methods: {
+    generateOrder() {
+      this.userId = 3
+      const url = 'http://192.168.43.61:8081/order/add'
+      axios({
+        method: 'post',
+        url: url,
+        params: {
+          bizId: this.bizId,
+          userId: this.userId
+        }, responseType: 'blob'
+      }
+      ).then(response => {
+        console.log(response)
+        if (response.status === 200) {
+          const imageUrl = window.URL.createObjectURL(new Blob([response.data]))
+          // 将图片显示在页面上
+          this.bizImg = imageUrl
+          this.dialogVisible = false
+          this.orderVisible = true
+          this.$message.success('已生成订单，请尽快支付')
+        } else {
+          this.dialogVisible = false
+          this.$message.error('生成订单失败，请联系工作人员')
+        }
+        // 处理后端返回的图片流
+      }).catch(error => {
+        console.error(error)
+      })
+    },
     getBizList() {
       // /biz/list/{page}/{size}
       const page = this.currentPage
@@ -114,30 +149,8 @@ export default {
     handleRowClick(row) {
       // 使用axios.post将bizId和userId传给后端，前端使用blob处理显示后端传回的图片流
       // url = 'http://192.168.43.61:8081/order/add'
+      this.dialogVisible = true
       this.bizId = row.bizId
-      this.userId = 3
-      const url = 'http://192.168.43.61:8081/order/add'
-      axios({
-        method: 'post',
-        url: url,
-        params: {
-          bizId: this.bizId,
-          userId: this.userId
-          // responseType: 'blob'
-        }, responseType: 'blob'
-      }
-      ).then(response => {
-        // 处理后端返回的图片流
-        const imageUrl = window.URL.createObjectURL(new Blob([response.data]))
-        // 将图片显示在页面上
-        this.bizImg = imageUrl
-        this.dialogVisible = true
-        console.log(response)
-        // console.log(response.data)
-        console.log('success')
-      }).catch(error => {
-        console.error(error)
-      })
     }
   }
 }
