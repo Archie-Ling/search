@@ -10,9 +10,10 @@
         <el-col :span="22">
           <h2>个人中心</h2>
           <el-divider />
-          <div class="content" style="color:white;">.</div>
+          <!--          <div class="content" style="color:white;">.</div>-->
           <!-- 个人信息 -->
-          <el-row>
+          <el-row class="clock">
+            <!--            <el-col :span="1"><div><p style="color:white;">.</p></div></el-col>-->
             <el-col :span="1" :xs="1"><div><p style="color:white;">.</p></div></el-col>
             <el-col :span="5" :xs="4">
               <div class="user-avatar">
@@ -29,11 +30,13 @@
                 <div class="user-points"> 积  分  : {{ userInfo.userPoints }}</div><br>
                 <div class="user-points"> 容  量  : {{ userInfo.userCapacity }}</div>
               </div>
-              <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>
+              <!--              <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>-->
               <!-- 购买积分按钮 点击后跳转到购买页面buy.vue -->
-              <el-button type="" class="buy-button">
-                <router-link to="/buy/buy">购买积分</router-link>
-              </el-button>
+              <div style="">
+                <el-button type="">
+                  <router-link to="/buy/buy">购买积分</router-link>
+                </el-button>
+              </div>
             </el-col>
           </el-row>
         </el-col>
@@ -80,18 +83,12 @@ export default {
   }
 }
 </script>
-<!-- <style scoped>
-.user-profile {
-  height: 100%;
-  width: 100%;
-  padding: 20px;
+<style>
+.clock{
+  /*background-color: #005dba;*/
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
-.user-details{
-  margin-left: 90px;
-  width: 100px;
-}
-.buy-button{
-  margin-left: 85px;
-}
-</style>-->
 
+</style>

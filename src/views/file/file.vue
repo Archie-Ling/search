@@ -8,59 +8,70 @@
       <el-col :span="22">
         <h2>文献归档</h2>
         <div class="content" style="color:white;">.</div>
-        <!-- 添加按钮 可以添加表格一行 -->
         <el-button type="primary" @click="addTableData">添加</el-button>
         <!-- elementUI 表格 -->
         <el-table
           :data="tableData"
           style="width: 100%"
         >
-          <!-- 表格第一列为docId -->
+          <!--          <el-table-column width="30px">-->
+          <!--            <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;">-->
+          <!--              <g fill="none" fill-rule="evenodd">-->
+          <!--                <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill=""></path>-->
+          <!--                <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill=""></path>-->
+          <!--                <path stroke="#0093D5" d="M7.25 1.1v17.667"></path>-->
+          <!--                <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4"></path>-->
+          <!--                <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5"></path></g></svg>-->
+          <!--          </el-table-column>-->
+          <!-- 表格最后一列为操作，有删除，编辑，进入详情按钮 -->
           <el-table-column
-            prop="docId"
-            label="id"
+            prop="name"
+            label="文件夹名"
+          >
+            <template slot-scope="scope">
+              <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;text-align: center">
+                <g fill="none" fill-rule="evenodd">
+                  <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill="" />
+                  <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill="" />
+                  <path stroke="#0093D5" d="M7.25 1.1v17.667" />
+                  <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4" />
+                  <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5" />
+                </g>
+              </svg>
+              <span style="margin-left: 5px;text-align: center;vertical-align:middle">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="size"
+            label="文件夹大小"
             width="180"
           />
           <el-table-column
-            prop="name"
-            label="文件名"
-          />
-
-          <!-- 表格最后一列为操作，有删除，编辑，进入详情按钮 -->
-
-          <el-table-column label="操作">
+            label=""
+            align="right"
+            padding-right="30"
+          >
             <template slot-scope="scope">
-              <!-- “编辑”按钮点击后会弹窗然后可以修改file_name的数据 -->
-              <el-button
-                size="mini"
-                type="success"
-                @click="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button>
-
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button>
-              <!-- 详情按钮 点击按钮跳转到filedetail.vue页面 -->
-              <el-button
-                size="mini"
-                type="primary"
-                @click="handleDetail(scope.$index, scope.row)"
-              >详情</el-button>
-
+              <el-dropdown trigger="click" placement="bottom-start">
+                <span class="el-dropdown-link">
+                  <i class="el-icon-arrow-down el-icon--right" />
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="1" @click.native="handleEdit(scope.$index, scope.row)">编辑</el-dropdown-item>
+                  <el-dropdown-item command="2" divided @click.native="handleDelete(scope.$index, scope.row)">删除</el-dropdown-item>
+                  <el-dropdown-item command="3" divided @click.native="handleDetail(scope.$index, scope.row)">详情</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
         <!-- 编辑对话框 -->
         <el-dialog
-          title="编辑数据"
+          title="修改文件夹"
           :visible.sync="showEditDialog"
+          custom-class="mydialog"
         >
           <el-form :model="editData">
-            <el-form-item label="id">
-              <el-input v-model="editData.docId" />
-            </el-form-item>
             <el-form-item label="文件名">
               <el-input v-model="editData.name" />
             </el-form-item>
@@ -68,6 +79,21 @@
           <div slot="footer" class="dialog-footer">
             <el-button @click="showEditDialog = false">取消</el-button>
             <el-button type="primary" @click="submitEditData">确定</el-button>
+          </div>
+        </el-dialog>
+        <el-dialog
+          title="添加文件夹"
+          :visible.sync="showAddDialog"
+          custom-class="mydialog"
+        >
+          <el-form :model="editData">
+            <el-form-item label="文件名">
+              <el-input v-model="editData.name" />
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="showAddDialog = false">取消</el-button>
+            <el-button type="primary" @click="submitAddData">确定</el-button>
           </div>
         </el-dialog>
       </el-col>
@@ -82,12 +108,19 @@ export default {
     return {
 
       // 编辑对话框是否显示
+      // screenWidth: document.body.clientWidth,
+      // screenHeight: document.body.clientHeight,
+      // // eslint-disable-next-line no-undef
+      // diaglogWidth: screenWidth * 0.4,
+      // // eslint-disable-next-line no-undef
+      // diaglogHeight: screenHeight * 0.4,
       showEditDialog: false,
+      showAddDialog: false,
       // 编辑对话框中的数据
       editData: {
         index: 0,
-        docId: '',
-        name: ''
+        // docId: '',
+        name: 'x'
       },
       // 表格数据
       tableData: []
@@ -95,7 +128,6 @@ export default {
   },
   mounted() {
     this.getTableData()
-    this.addTableData()
   },
   methods: {
     // 获取表格数据
@@ -114,23 +146,8 @@ export default {
     // 使用axios从后端api添加一行数据 使用params传参
     // 在点完添加按钮后页面上方弹出
     addTableData() {
-      const url = 'http://192.168.43.61:8081/doc/add'
-      const userId = 3
-      axios.post(url, null, {
-        params: {
-          docName: '',
-          userId: userId,
-          docId: '',
-          // 用于表示文件夹里面的数据条数
-          size: ''
-        }
-      }).then(res => {
-        console.log('成功' + res.data.data)
-        console.log(this.tableData)
-        this.getTableData()
-      }).catch(err => {
-        console.log(err)
-      })
+      this.showAddDialog = true
+      this.editData.name = ''
     },
     // 使用axios从后端api删除一行
     handleDelete(index, row) {
@@ -156,31 +173,47 @@ export default {
       this.editData = {
         index: index,
         docId: row.docId,
-        docName: row.name
+        name: row.name
       }
       // 显示编辑对话框
       this.showEditDialog = true
     },
     // 提交表单数据
     submitEditData() {
-      // 更新tableData数组中的相应行
-      this.tableData[this.editData.index] = {
-        name: this.editData.name,
-        docId: this.editData.docId
-      }
       // 隐藏编辑对话框
       this.showEditDialog = false
       //  将编辑成功的数据使用aioxs的put方法发送params方法传参给后端 传参为docName,uesrId,docId docId为后端传回tableData中的docId并且是点击编辑按钮时传入的row.docId
       const url = 'http://192.168.43.61:8081/doc/update'
       const userId = 3
       // 获取点击编辑按钮时传入的row.docId
+      console.log('edit')
       const docId = this.editData.docId
-      console.log('test' + docId)
       axios.put(url, null, {
         params: {
           docName: this.editData.name,
           userId: userId,
           docId: docId
+        }
+      }).then(res => {
+        console.log('成功' + res.data.data)
+        console.log(res.data.mes)
+        this.getTableData()
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    submitAddData() {
+      // 更新tableData数组中的相应行
+      // 隐藏编辑对话框
+      this.showAddDialog = false
+      //  将编辑成功的数据使用aioxs的put方法发送params方法传参给后端 传参为docName,uesrId,docId docId为后端传回tableData中的docId并且是点击编辑按钮时传入的row.docId
+      const url = 'http://192.168.43.61:8081/doc/add'
+      const userId = 3
+      // 获取点击编辑按钮时传入的row.docId
+      axios.post(url, null, {
+        params: {
+          docName: this.editData.name,
+          userId: userId
         }
       }).then(res => {
         console.log('成功' + res.data.data)
@@ -201,10 +234,28 @@ export default {
         }
       })
     }
-    /*  handleDetails(index, row) {
-      console.log(index, row)
-    } */
-
   }
 }
 </script>
+<style lang="scss">
+svg{
+  vertical-align:middle;
+}
+.mydialog{
+  width: 30%;
+  height: 30%;
+  overflow: scroll;
+  input{
+
+  }
+}
+// 当鼠标移动到表格中的某一行时，才显示操作按钮
+.el-icon-arrow-down{
+  display: none;
+  padding-right: 30px;
+}
+.el-table__row:hover .el-icon-arrow-down{
+  display: inline-block;
+}
+
+</style>

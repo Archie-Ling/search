@@ -42,25 +42,24 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-
+        <a style="color: antiquewhite; margin-bottom: 10px" href="/password_reset?loginWay=mobile">忘记密码？</a>
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
         <label class="ant-checkbox-wrapper">
           <span class="ant-checkbox">
             <input type="checkbox" class="ant-checkbox-input" data-testid="protocolCheckBox" value="">
             <span class="ant-checkbox-inner"></span></span>
-            <span>我已阅读并同意医寻<a href="https://www.yuque.com/terms" target="_blank"> 服务协议 </a>和<a href="https://app.nlark.com/mobile-app/pages/privacy-policy.html" target="_blank"> 隐私权政策 </a></span>
+            <span>   我已阅读并同意医寻<a href="https://www.yuque.com/terms" target="_blank"> 服务协议 </a>和<a href="https://app.nlark.com/mobile-app/pages/privacy-policy.html" target="_blank"> 隐私权政策 </a></span>
           </label>
 
         <div class="tips">
-          <el-button type="primary" style="margin-right:50px;margin-left: 50px;">忘记密码</el-button>
+          <el-button type="mini" style="margin-right:50px;margin-left: 50px;">忘记密码</el-button>
           <!-- el-button按钮 跳转到register用户注册页面 -->
-          <el-button type="primary" style="margin-left: 50px;" @click="register">用户注册</el-button>
+          <el-button type="mini" style="margin-left: 50px;" @click="register">用户注册</el-button>
 
         </div>
 
       </el-form>
     </el-card>
-
   </div>
 </template>
 
@@ -157,7 +156,7 @@ export default {
 
 $bg:#92b6e2;
 $light_gray:#fff;
-$cursor: #fff;
+$cursor: #000000;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -169,23 +168,23 @@ $cursor: #fff;
 .login-container {
   .el-card {
     background: white;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.1);
     // 卡片位置
     position: absolute;
     top: 10%;
-    width: 520px;
+    width: 50%;
     margin: 0 auto;
     margin-top: 0;
     padding: 30px 30px 20px 30px;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
+
     .el-card__body {
       padding: 0;
     }
   }
-
   .el-input {
     display: inline-block;
     height: 47px;
@@ -218,15 +217,17 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg: #fafafa;
 $dark_gray:#889aa4;
-$light_gray:#eee;
-
+$light_gray: #000000;
+a{
+  color: #005dba;
+}
 .login-container {
   /* min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden; */
+  background-color: $bg;
   width: 100%;
   height: 100%;
   // background-image: url("../../assets/login_images/login.jpg");
@@ -294,6 +295,7 @@ $light_gray:#eee;
       height: 100px;
       margin: 0 auto;
       margin-top: 0;
+      font-family: "Hiragino Sans GB";
       padding: 30px 30px 20px 30px;
       box-sizing: border-box;
       position: relative;

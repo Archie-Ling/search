@@ -14,8 +14,17 @@ export const constantRoutes = [
   },
   {
     path: '/register',
-    component: () => import('@/views/register/register'),
-    meta: { requiresAuth: false }
+    component: Layout,
+    // component: () => import('@/views/register/register'),
+    children: [
+      {
+        path: 'register',
+        name: '注册',
+        component: () => import('@/views/register/register'),
+        meta: { title: '注册', icon: 'user' },
+        hidden: true
+      }
+    ]
   },
   {
     path: '/404',
@@ -31,7 +40,8 @@ export const constantRoutes = [
       path: 'search',
       name: '首页',
       component: () => import('@/views/search/search'),
-      meta: { title: '医疗文献检索系统', icon: '' }
+      meta: { title: '医疗文献检索系统', icon: '' },
+      hidden: true
     }]
   },
 
@@ -56,7 +66,7 @@ export const constantRoutes = [
         path: 'upload',
         name: '上传文档',
         component: () => import('@/views/upload/upload'),
-        meta: { title: '上传文档', icon: 'upload' }
+        meta: { title: '上传文献', icon: 'upload' }
       }
     ]
   },
@@ -69,7 +79,7 @@ export const constantRoutes = [
         path: 'file',
         name: '归档',
         component: () => import('@/views/file/file'),
-        meta: { title: '归档', icon: 'file' }
+        meta: { title: '文献归档', icon: 'file' }
       }
     ]
   },
