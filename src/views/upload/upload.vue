@@ -29,12 +29,13 @@
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
-          <el-divider style="background-color:white" />
           <el-button
             type="primary"
+            size="small"
+            style="margin-top: 20px"
             :disabled="isDisabled"
             @click="handleDelete"
-          >识别</el-button>
+          >识别分析</el-button>
           <el-divider />
           <!-- <el-upload
             class="upload-demo"

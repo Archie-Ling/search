@@ -53,13 +53,19 @@
           <el-dialog
             title="购买商品"
             :visible.sync="dialogVisible"
-            width="30%"
           >
-            <img :src="bizImg" alt="" style="width: 100%; height: 100%;">
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
+            <template slot="title">
+              <span>购买商品</span>
+            </template>
+            <template slot="default">
+              <img :src="bizImg" alt="" style="width: 100%; height: 100%;">
+            </template>
+            <template slot="footer">
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+            </template>
           </el-dialog>
         </el-col>
       </el-row>
