@@ -56,7 +56,6 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     }
   } */
-
   if (to.meta.requiresAuth && !getToken()) {
     // 需要登录且未登录，跳转到登录页面
     next({ path: '/login', query: { redirect: to.fullPath }})

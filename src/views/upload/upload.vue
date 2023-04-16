@@ -26,34 +26,21 @@
             :on-exceed="handleExceed"
             :file-list="fileList"
           >
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary" plain>上传文献</el-button>
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
-          <el-divider style="background-color:white" />
+
+          <el-divider  >
+            <i class="el-icon-upload"></i>
+          </el-divider>
           <el-button
-            type="primary"
-            :disabled="isDisabled"
-            @click="handleDelete"
-          >识别</el-button>
-          <el-divider />
-          <!-- <el-upload
-            class="upload-demo"
-            action="http://192.168.43.61:8081/file/temp"
-            accept=".pdf"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            :on-error="handleAvatarError"
-            :on-success="handleAvatarSuccess"
-            multiple
-            :limit="50"
-            :on-exceed="handleExceed"
-            :file-list="fileList"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
-          </el-upload>
-          <el-divider /> -->
+          type="primary"
+          plain
+          :disabled="isDisabled"
+          @click="handleDelete"
+        >识别</el-button>
+          <el-divider  style="background-color:white; border-style: dashed"  />
+
           <!-- “识别”按钮 点击后变成disabled样式持续3秒，并弹出提示：正在识别中，请稍后，在7秒之后弹出提示：识别已完成 -->
           <div style="font-size:20px;font-weight: bolder;margin-bottom: 10px">最近上传文件</div>
           <!-- 表格显示最近上传文件 展示pdfTitle pdfTitle-->

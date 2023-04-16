@@ -8,7 +8,7 @@
       <el-col :span="22">
         <h2>文献归档</h2>
         <div class="content" style="color:white;">.</div>
-        <el-button type="primary" @click="addTableData">添加</el-button>
+        <el-button type="primary"  plain @click="addTableData">添加文件夹</el-button>
         <!-- elementUI 表格 -->
         <el-table
           :data="tableData"
