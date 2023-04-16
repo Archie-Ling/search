@@ -31,7 +31,7 @@
                 <!-- el-分割线 -->
                 <el-divider />
                 <div v-for="(items,index) in detaildata" :key="index">
-                  <p>page:{{ items.page }}</p>
+                  <p>页数为 {{ items.page }}</p>
                   <el-text :style="{ color: textColor }">{{ items.estype }}</el-text>
                   <p>
                     <span v-html="highlightText(items.esvalue)" />

@@ -14,14 +14,16 @@
           <!-- 个人信息 -->
           <el-row class="clock">
             <!--            <el-col :span="1"><div><p style="color:white;">.</p></div></el-col>-->
-            <el-col :span="5">
+            <el-col :span="1" :xs="1"><div><p style="color:white;">.</p></div></el-col>
+            <el-col :span="5" :xs="4">
               <div class="user-avatar">
                 <el-avatar :size="150" :src="require('@/icons/svg/logo.png')" />
               </div>
             </el-col>
-            <el-col :span="16">
-              <!--              <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>-->
-              <div class="user-details">
+            <el-col :span="1" :xs="8"><div><p style="color:white;">.</p></div></el-col>
+            <el-col :span="15" :xs="7">
+              <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>
+              <div class="user-details"  >
                 <div class="user-id">用户ID: {{ userInfo.userId }}</div><br>
                 <!-- <div class="user-id">用户名: {{ userInfo.username }}</div><br> -->
                 <div class="user-phone">手机号: {{ userInfo.userPhone }}</div><br>

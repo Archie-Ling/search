@@ -17,7 +17,6 @@
           :data="tableData"
           style="width: 100%"
           :height="tableHeight"
-          border
           @selection-change="handleSelectionChange"
 
         >
@@ -26,11 +25,11 @@
             type="selection"
             width="55"
           />
-          <el-table-column
-            prop="pdfId"
-            label="id"
-            width="55"
-          />
+<!--          <el-table-column-->
+<!--            prop="pdfId"-->
+<!--            label="id"-->
+<!--            width="55"-->
+<!--          />-->
           <el-table-column
             prop="pdfTitle"
             label="文献名"
@@ -38,27 +37,38 @@
             min-width="160"
           />
           <!-- 表格最后一列为操作,有跳转到文献详情界面detail.vue,有移动到另一个文件夹操作 -->
-          <el-table-column label="操作" width="150">
-            <template slot-scope="scope">
-              <!-- 编辑按钮 点击按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改 -->
-              <el-button
-                size="mini"
-                type="primary"
-                @click="handleEdit(scope.$index, scope.row)"
-              >编辑</el-button>
-              <!-- 移动按钮 点击按钮弹窗显示请求后端显示文件夹信息 -->
-              <!-- <el-button
-                size="mini"
-                type="success"
-                @click="handleMove(scope.$index, scope.row)"
-              >移动</el-button> -->
-            </template>
-          </el-table-column>
           <el-table-column
             prop="pdfAuthor"
             label="作者"
             width="80"
           />
+          <el-table-column label="ww" >
+          <template slot-scope="scope">
+            <!-- 编辑按钮 点击按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改 -->
+            <el-popover
+              placement="right"
+              width="10"
+              v-model="visible">
+              <div>
+                <el-button type="text" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              </div>
+              <i class="el-icon-caret-bottom" slot="reference"></i>
+            </el-popover>
+
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              type="primary"-->
+<!--              @click="handleEdit(scope.$index, scope.row)"-->
+<!--            >编辑</el-button>-->
+
+            <!-- 移动按钮 点击按钮弹窗显示请求后端显示文件夹信息 -->
+            <!-- <el-button
+              size="mini"
+              type="success"
+              @click="handleMove(scope.$index, scope.row)"
+            >移动</el-button> -->
+          </template>
+        </el-table-column>
         </el-table>
         <!-- 分页显示 -->
         <el-pagination

@@ -29,6 +29,11 @@
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
+          <el-button
+          type="primary"
+          :disabled="isDisabled"
+          @click="handleDelete"
+        >识别</el-button>
           <el-divider />
           <!-- <el-upload
             class="upload-demo"
@@ -49,19 +54,38 @@
           </el-upload>
           <el-divider /> -->
           <!-- “识别”按钮 点击后变成disabled样式持续3秒，并弹出提示：正在识别中，请稍后，在7秒之后弹出提示：识别已完成 -->
-          <el-button
-            type="primary"
-            :disabled="isDisabled"
-            @click="handleDelete"
-          >识别</el-button>
+          <div style="font-size:20px;font-weight: bolder;margin-bottom: 10px">最近上传文件</div>
+          <div v-for="(items,index) in this.files" :key="index">
+            <div>
+              <span class="title">{{items.pdfTitle}}</span>
+              <el-tag
+                effect="plain">
+                {{ items.pdfStatus}}
+              </el-tag>
+            </div>
+          <el-divider />
+        </div>
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
-
+<style>
+.title{
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  width: 260px;/*设置显示的最大宽度*/
+  display:inline-block;
+}
+.title-next{
+  vertical-align: top;
+}
+</style>
 <script>
 import axios from 'axios'
+
+import sortfile from '@/api/sortfile'
 export default {
   data() {
     return {
@@ -84,14 +108,26 @@ export default {
       userId: '3',
       pdfId: '',
       file: '',
-      formData: new FormData()
-
+      formData: new FormData(),
+      files: []
     }
   },
   created() {
     this.userId = 3
   },
+  mounted() {
+    // eslint-disable-next-line no-undef
+    this.fetchSortFiles(this.userId, 1)
+  },
   methods: {
+    fetchSortFiles(userId, status) {
+      sortfile.fetchById(userId, status).then(response => {
+        if (response.code === 200) {
+          const arr = JSON.parse(JSON.stringify(response.data))
+          this.files = arr.data
+        }
+      })
+    },
     handleAvatarSuccess(res, file, fileList) {
       this.fileList = fileList
       // 上传成功钩子函数
