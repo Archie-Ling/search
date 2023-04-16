@@ -83,6 +83,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/chart',
+    component: Layout,
+    children: [
+      {
+        path: 'chart',
+        name: '分析',
+        component: () => import('@/views/chart/chart'),
+        meta: { title: '图表分析', icon: 'chart' }
+      }
+    ]
+  },
   /* {
     path: '/filedetail/filedetail',
     component: () => import('@/views/filedetail/filedetail'),

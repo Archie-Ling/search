@@ -69,35 +69,41 @@
         <el-dialog
           title="编辑数据"
           :visible.sync="showEditDialog"
-          width="250"
           :get-doc-data="getDocData"
         >
-          <el-form :model="editData" label-width="80px">
-            <el-form-item label="文件夹名">
-              <el-select v-model="editData.newDocId" placeholder="请选择">
-                <el-option
-                  v-for="item in docData"
-                  :key="item.docId"
-                  :label="item.name"
-                  :value="item.docId"
-                />
-              </el-select>
-              <!-- 选择文件夹名后，将另一个输入框里的docId不变 -->
-              <el-input v-show="false" v-model="editData.docId" disabled />
-              <!-- 选择文件夹名后，将另一个输入框里的新选择的newDocId跟着变化 -->
-              <el-input v-show="false" v-model="editData.newDocId" disabled />
-            </el-form-item>
-            <el-form-item label="pdfId">
-              <el-input v-model="editData.pdfId" disabled />
-            </el-form-item>
-            <el-form-item label="pdfTitle">
-              <el-input v-model="editData.pdfTitle" />
-            </el-form-item>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="showEditDialog = false">取 消</el-button>
-            <el-button type="primary" @click="handleEditSubmit">确 定</el-button>
-          </span>
+          <template #header>
+            <span>编辑数据</span>
+          </template>
+          <template #default>
+            <el-form :model="editData">
+              <el-form-item label="文件夹名">
+                <el-select v-model="editData.newDocId" placeholder="请选择">
+                  <el-option
+                    v-for="item in docData"
+                    :key="item.docId"
+                    :label="item.name"
+                    :value="item.docId"
+                  />
+                </el-select>
+                <!-- 选择文件夹名后，将另一个输入框里的docId不变 -->
+                <el-input v-show="false" v-model="editData.docId" disabled />
+                <!-- 选择文件夹名后，将另一个输入框里的新选择的newDocId跟着变化 -->
+                <el-input v-show="false" v-model="editData.newDocId" disabled />
+              </el-form-item>
+              <el-form-item label="pdfId">
+                <el-input v-model="editData.pdfId" disabled />
+              </el-form-item>
+              <el-form-item label="pdfTitle">
+                <el-input v-model="editData.pdfTitle" />
+              </el-form-item>
+            </el-form>
+          </template>
+          <template #footer>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="showEditDialog = false">取 消</el-button>
+              <el-button type="primary" @click="handleEditSubmit">确 定</el-button>
+            </div>
+          </template>
         </el-dialog>
       </el-col>
     </el-row>
@@ -222,6 +228,11 @@ export default {
       }).catch(err => {
         console.log('失败')
         console.log(err)
+      })
+      // 点击确认后上方弹出提示 提示修改成功
+      this.$message({
+        message: '修改成功',
+        type: 'success'
       })
     },
     // 使用axios 从后端获取文件夹数据

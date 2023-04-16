@@ -49,8 +49,19 @@
           <el-dialog
             title="购买商品"
             :visible.sync="dialogVisible"
-            width="30%"
           >
+            <template slot="title">
+              <span>购买商品</span>
+            </template>
+            <template slot="default">
+              <img :src="bizImg" alt="" style="width: 100%; height: 100%;">
+            </template>
+            <template slot="footer">
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+            </template>
             <!--            <img :src="bizImg" alt="" style="width: 100%; height: 100%;">-->
             <div>即将生成订单，请确认是否需要购买</div>
             <span slot="footer" class="dialog-footer">
@@ -89,7 +100,6 @@ export default {
       userId: '',
       bizImg: '',
       dialogVisible: false,
-      orderVisible: false,
       dialogImageUrl: ''
     }
   },
