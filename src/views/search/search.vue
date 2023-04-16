@@ -16,23 +16,40 @@
             <el-button type="primary" :enter-search="enterSearch()" @click="search()">搜索</el-button></el-col>
         </el-row>
         <el-divider />
-        <el-table :data="tableData" @row-click="handleRowClick">
-          <el-table-column prop="title" label="文章标题" />
-          <el-table-column prop="pdfPages" label="页数" />
-          <el-table-column prop="score" label="得分(按内容相关度排序)" sortable />
-          <el-table-column prop="createtime" label="时间(按时间排序)" sortable />
-          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />
-        </el-table>
-        <!-- 分页 -->
-        <el-pagination
-          :current-page="currentPage"
-          :page-sizes="[5, 10, 20, 50]"
-          :page-size="pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
+
+        <el-skeleton >
+          <template slot="template">
+            <div style="padding: 14px;">
+              <el-skeleton-item variant="p" style="width: 100%" />
+<!--              eslint-disable-next-line vue/no-unused-vars -->
+              <div v-for=" n in 8" style="margin:20px">
+                <div style="display: flex; align-items: center;justify-content: space-between;">
+                  <el-skeleton-item variant="text" class="item" />
+                  <el-skeleton-item variant="text"  class="item"/>
+                  <el-skeleton-item variant="text"  class="item"/>
+                  <el-skeleton-item variant="text"  class="item"/>
+                </div>
+              </div>
+            </div>
+          </template>
+        </el-skeleton>
+
+<!--        <el-table :data="tableData" @row-click="handleRowClick">-->
+<!--          <el-table-column prop="title" label="文章标题" />-->
+<!--          <el-table-column prop="pdfPages" label="页数" />-->
+<!--          <el-table-column prop="score" label="内容相关度" sortable />-->
+<!--          <el-table-column prop="createtime" label="上传时间" sortable />-->
+<!--          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />-->
+<!--        </el-table>-->
+<!--        &lt;!&ndash; 分页 &ndash;&gt;-->
+<!--        <el-pagination-->
+<!--          background-->
+<!--          layout="prev, pager, next"-->
+<!--          :total="total"-->
+<!--          style="margin:10px 0;text-align: center"-->
+<!--          @size-change="handleSizeChange"-->
+<!--          @current-change="handleCurrentChange"-->
+<!--        />-->
       </el-col>
     </el-row>
   </div>
@@ -47,7 +64,6 @@ export default {
       currentPage: 1, // 当前页
       pagesize: 5, // 每页显示条数
       total: 0, // 总条数
-      searchType: 1, // 搜索类型
       showAddressColumn: false
 
     }
@@ -79,8 +95,8 @@ export default {
       // 调用后端API接口进行搜索
       const searchString = this.searchText
       const pageNo = 0
-      const pageSize = this.pagesize
-      const userId = 0
+      const pageSize = 10
+      const userId = 3
       const docId = 0
       const searchType = this.searchType
       const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
@@ -117,5 +133,8 @@ export default {
 
 </script>
 <style>
-
+.item{
+  width: 20%;
+  height: 20px
+}
 </style>

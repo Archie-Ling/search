@@ -127,9 +127,8 @@ export default {
         docId: '',
         pdfId: '',
         pdfTitle: '',
-        newDocId: ''
-      },
-      docData: []
+        newDocId:''
+      }
 
     }
   },
@@ -177,6 +176,10 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
+    // 移动
+    /* handleMove() {
+      // 使用axios通过后端api实现弹窗显示文件夹信息，点击文件夹可以将改该文献移动到文件夹里
+    }, */
     // 编辑 使用axios post从后端api编辑一行数据 使用query传参,在点完编辑按钮后弹出窗口进行编辑
     handleEdit(index, row) {
       console.log('编辑')
@@ -197,7 +200,6 @@ export default {
       console.log(this.userId)
       // 使用axios post 从后端api编辑一行数据 使用query传参
       const url = 'http://192.168.43.61:8081/file/update'
-      console.log(url)
       axios({
         method: 'post',
         url: url,
@@ -209,13 +211,6 @@ export default {
           newDocId: this.editData.newDocId
         }
       }).then(res => {
-        console.log('测试query')
-        console.log(this.editData.docId)
-        console.log(this.editData.pdfId)
-        console.log(this.editData.pdfTitle)
-        console.log(this.userId)
-        console.log('测试newDocId')
-        console.log(this.editData.newDocId)
         console.log(res)
         // 将获取到的数据赋值给tableData
         console.log('成功')
@@ -244,6 +239,7 @@ export default {
         console.log(err)
       })
     }
+
   }
 }
 </script>
