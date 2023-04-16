@@ -13,7 +13,7 @@
           <el-col :span="18">
             <el-input v-model="searchText" placeholder="请输入搜索内容" /></el-col>
           <el-col :span="4" offset="1">
-            <el-button type="primary" @click="search()">搜索</el-button></el-col>
+            <el-button type="primary" :enter-search="enterSearch()" @click="search()">搜索</el-button></el-col>
         </el-row>
         <el-divider />
         <el-table :data="tableData" @row-click="handleRowClick">
@@ -26,11 +26,10 @@
         <!-- 分页 -->
         <el-pagination
           :current-page="currentPage"
-          :page-sizes="[5, 10, 15]"
+          :page-sizes="[5, 10, 20, 50]"
           :page-size="pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-          style="margin:10px 0"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -48,6 +47,7 @@ export default {
       currentPage: 1, // 当前页
       pagesize: 5, // 每页显示条数
       total: 0, // 总条数
+      searchType: 1, // 搜索类型
       showAddressColumn: false
 
     }
@@ -79,10 +79,10 @@ export default {
       // 调用后端API接口进行搜索
       const searchString = this.searchText
       const pageNo = 0
-      const pageSize = 5
+      const pageSize = this.pagesize
       const userId = 0
       const docId = 0
-      const searchType = 1
+      const searchType = this.searchType
       const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
 
       axios.get(url, {
@@ -93,6 +93,10 @@ export default {
         // 处理搜索结果
         this.tableData = response.data.data
         console.log(this.tableData)
+        // 返回分页信息 total pagesize currentpage
+        this.total = response.data.total
+        this.pagesize = response.data.pageSize
+        this.currentPage = response.data.currentPage
       }).catch(error => {
         // 处理错误
         console.log(error)
@@ -105,6 +109,8 @@ export default {
     enterSearch() {
       this.search()
     }
+    // 分页组件连接后端api
+
   }
 
 }

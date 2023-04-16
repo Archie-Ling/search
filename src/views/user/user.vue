@@ -13,15 +13,16 @@
           <div class="content" style="color:white;">.</div>
           <!-- 个人信息 -->
           <el-row>
-            <el-col :span="1"><div><p style="color:white;">.</p></div></el-col>
-            <el-col :span="5">
+            <el-col :span="1" :xs="1"><div><p style="color:white;">.</p></div></el-col>
+            <el-col :span="5" :xs="4">
               <div class="user-avatar">
                 <el-avatar :size="150" :src="require('@/icons/svg/logo.png')" />
               </div>
             </el-col>
-            <el-col :span="16">
+            <el-col :span="1" :xs="8"><div><p style="color:white;">.</p></div></el-col>
+            <el-col :span="15" :xs="7">
               <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>
-              <div class="user-details">
+              <div class="user-details"  >
                 <div class="user-id">用户ID: {{ userInfo.userId }}</div><br>
                 <!-- <div class="user-id">用户名: {{ userInfo.username }}</div><br> -->
                 <div class="user-phone">手机号: {{ userInfo.userPhone }}</div><br>
@@ -30,7 +31,7 @@
               </div>
               <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>
               <!-- 购买积分按钮 点击后跳转到购买页面buy.vue -->
-              <el-button type="">
+              <el-button type="" class="buy-button">
                 <router-link to="/buy/buy">购买积分</router-link>
               </el-button>
             </el-col>
@@ -79,4 +80,18 @@ export default {
   }
 }
 </script>
+<!-- <style scoped>
+.user-profile {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+.user-details{
+  margin-left: 90px;
+  width: 100px;
+}
+.buy-button{
+  margin-left: 85px;
+}
+</style>-->
 
