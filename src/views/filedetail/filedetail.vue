@@ -130,7 +130,7 @@ export default {
         docId: '',
         pdfId: '',
         pdfTitle: '',
-        newDocId:''
+        newDocId: ''
       }
 
     }
