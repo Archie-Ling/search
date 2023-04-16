@@ -18,18 +18,12 @@
           style="width: 100%"
           :height="tableHeight"
           @selection-change="handleSelectionChange"
-
         >
           <!-- 表格第一列为docId -->
           <el-table-column
             type="selection"
             width="55"
           />
-<!--          <el-table-column-->
-<!--            prop="pdfId"-->
-<!--            label="id"-->
-<!--            width="55"-->
-<!--          />-->
           <el-table-column
             prop="pdfTitle"
             label="文献名"
@@ -42,33 +36,24 @@
             label="作者"
             width="80"
           />
-          <el-table-column label="ww" >
-          <template slot-scope="scope">
-            <!-- 编辑按钮 点击按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改 -->
-            <el-popover
-              placement="right"
-              width="10"
-              v-model="visible">
-              <div>
-                <el-button type="text" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              </div>
-              <i class="el-icon-caret-bottom" slot="reference"></i>
-            </el-popover>
-
-<!--            <el-button-->
-<!--              size="mini"-->
-<!--              type="primary"-->
-<!--              @click="handleEdit(scope.$index, scope.row)"-->
-<!--            >编辑</el-button>-->
-
-            <!-- 移动按钮 点击按钮弹窗显示请求后端显示文件夹信息 -->
-            <!-- <el-button
-              size="mini"
-              type="success"
-              @click="handleMove(scope.$index, scope.row)"
-            >移动</el-button> -->
-          </template>
-        </el-table-column>
+          <el-table-column
+            label=""
+            align="right"
+          >
+            <template slot-scope="scope">
+              <!-- 编辑按钮 点击按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改 -->
+              <el-popover
+                v-model="visible"
+                placement="right"
+                width="10"
+              >
+                <div>
+                  <el-button type="text" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                </div>
+                <i slot="reference" class="el-icon-caret-bottom" />
+              </el-popover>
+            </template>
+          </el-table-column>
         </el-table>
         <!-- 分页显示 -->
         <el-pagination
@@ -80,17 +65,29 @@
         <el-dialog
           title="编辑数据"
           :visible.sync="showEditDialog"
-          width="30%"
+          width="250"
+          :get-doc-data="getDocData"
         >
           <el-form :model="editData" label-width="80px">
-            <el-form-item label="docId">
-              <el-input v-model="editData.docId" ></el-input>
+            <el-form-item label="文件夹名">
+              <el-select v-model="editData.newDocId" placeholder="请选择">
+                <el-option
+                  v-for="item in docData"
+                  :key="item.docId"
+                  :label="item.name"
+                  :value="item.docId"
+                />
+              </el-select>
+              <!-- 选择文件夹名后，将另一个输入框里的docId不变 -->
+              <el-input v-show="false" v-model="editData.docId" disabled />
+              <!-- 选择文件夹名后，将另一个输入框里的新选择的newDocId跟着变化 -->
+              <el-input v-show="false" v-model="editData.newDocId" disabled />
             </el-form-item>
             <el-form-item label="pdfId">
-              <el-input v-model="editData.pdfId" disabled></el-input>
+              <el-input v-model="editData.pdfId" disabled />
             </el-form-item>
             <el-form-item label="pdfTitle">
-              <el-input v-model="editData.pdfTitle"></el-input>
+              <el-input v-model="editData.pdfTitle" />
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
@@ -130,7 +127,7 @@ export default {
         docId: '',
         pdfId: '',
         pdfTitle: '',
-        newDocId: ''
+        newDocId:''
       }
 
     }
@@ -145,6 +142,8 @@ export default {
     console.log(this.userId)
     // 页面加载时获取数据
     this.getdata()
+    this.getDocData()
+    console.log(this.docData)
   },
   methods: {
     // 使用使用axios从后端api获取文件夹里面的文献信息 /file/search/{page}/{size}
@@ -203,12 +202,12 @@ export default {
       axios({
         method: 'post',
         url: url,
-        query: {
+        params: {
           docId: this.editData.docId,
           pdfId: this.editData.pdfId,
           pdfTitle: this.editData.pdfTitle,
           userId: this.userId,
-          newDocId: ''
+          newDocId: this.editData.newDocId
         }
       }).then(res => {
         console.log(res)
@@ -223,8 +222,28 @@ export default {
         console.log('失败')
         console.log(err)
       })
+    },
+    // 使用axios 从后端获取文件夹数据
+    getDocData() {
+      const userId = 3
+      const url = 'http://192.168.43.61:8081/doc/search/' + userId
+      console.log(url)
+      axios.get(url).then(res => {
+        // 将获取到的数据赋值给docData
+        this.docData = res.data.data.data
+        console.log('成功')
+        console.log(res.data.data.data)
+        console.log(this.docData)
+      }).catch(err => {
+        console.log(err)
+      })
     }
 
   }
 }
 </script>
+<style>
+.el-icon-caret-bottom{
+  padding-right: 30px;
+}
+</style>

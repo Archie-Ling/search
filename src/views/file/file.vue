@@ -14,37 +14,43 @@
           :data="tableData"
           style="width: 100%"
         >
-<!--          <el-table-column width="30px">-->
-<!--            <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;">-->
-<!--              <g fill="none" fill-rule="evenodd">-->
-<!--                <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill=""></path>-->
-<!--                <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill=""></path>-->
-<!--                <path stroke="#0093D5" d="M7.25 1.1v17.667"></path>-->
-<!--                <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4"></path>-->
-<!--                <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5"></path></g></svg>-->
-<!--          </el-table-column>-->
-        <!-- 表格最后一列为操作，有删除，编辑，进入详情按钮 -->
-        <el-table-column
-          prop="name"
-          label="文件夹名"
-        >
-          <template slot-scope="scope" >
-            <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;text-align: center">
-              <g fill="none" fill-rule="evenodd">
-                <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill=""></path>
-                <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill=""></path>
-                <path stroke="#0093D5" d="M7.25 1.1v17.667"></path>
-                <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4"></path>
-                <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5"></path></g></svg>
-            <span style="margin-left: 5px;text-align: center;vertical-align:middle">{{ scope.row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="size"
-          label="文件夹大小"
-          width="180"
-        />
-          <el-table-column label="">
+          <!--          <el-table-column width="30px">-->
+          <!--            <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;">-->
+          <!--              <g fill="none" fill-rule="evenodd">-->
+          <!--                <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill=""></path>-->
+          <!--                <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill=""></path>-->
+          <!--                <path stroke="#0093D5" d="M7.25 1.1v17.667"></path>-->
+          <!--                <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4"></path>-->
+          <!--                <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5"></path></g></svg>-->
+          <!--          </el-table-column>-->
+          <!-- 表格最后一列为操作，有删除，编辑，进入详情按钮 -->
+          <el-table-column
+            prop="name"
+            label="文件夹名"
+          >
+            <template slot-scope="scope">
+              <svg width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="larkui-icon larkui-icon-book-type-default icon-svg larkui-tooltip index-module_size_wVASz" data-name="BookTypeDefault" style="width: 18px; height: 18px; min-width: 18px;text-align: center">
+                <g fill="none" fill-rule="evenodd">
+                  <path d="M4.75 1.267h10.5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-14a2 2 0 0 1 2-2Z" fill="" />
+                  <path d="M4.75 1.267h2.215v18H5.75a3 3 0 0 1-3-3v-13a2 2 0 0 1 2-2Z" fill="" />
+                  <path stroke="#0093D5" d="M7.25 1.1v17.667" />
+                  <path stroke="#0093D5" stroke-linecap="round" stroke-linejoin="round" d="M10.85 5.394h3.4" />
+                  <path d="M4.25 1.267h11.5a1.5 1.5 0 0 1 1.5 1.5v14.5a1.5 1.5 0 0 1-1.5 1.5H4.25a1.5 1.5 0 0 1-1.5-1.5v-14.5a1.5 1.5 0 0 1 1.5-1.5Z" stroke="#0093D5" />
+                </g>
+              </svg>
+              <span style="margin-left: 5px;text-align: center;vertical-align:middle">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="size"
+            label="文件夹大小"
+            width="180"
+          />
+          <el-table-column
+            label=""
+            align="right"
+            padding-right="30"
+          >
             <template slot-scope="scope">
               <el-dropdown trigger="click" placement="bottom-start">
                 <span class="el-dropdown-link">
@@ -232,6 +238,9 @@ export default {
 }
 </script>
 <style lang="scss">
+svg{
+  vertical-align:middle;
+}
 .mydialog{
   width: 30%;
   height: 30%;
@@ -240,4 +249,13 @@ export default {
 
   }
 }
+// 当鼠标移动到表格中的某一行时，才显示操作按钮
+.el-icon-arrow-down{
+  display: none;
+  padding-right: 30px;
+}
+.el-table__row:hover .el-icon-arrow-down{
+  display: inline-block;
+}
+
 </style>

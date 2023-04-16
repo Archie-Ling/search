@@ -13,7 +13,7 @@
           <el-col :span="18">
             <el-input v-model="searchText" placeholder="请输入搜索内容" /></el-col>
           <el-col :span="4" offset="1">
-            <el-button type="primary" @click="search()">搜索</el-button></el-col>
+            <el-button type="primary" :enter-search="enterSearch()" @click="search()">搜索</el-button></el-col>
         </el-row>
         <el-divider />
 
@@ -98,7 +98,7 @@ export default {
       const pageSize = 10
       const userId = 3
       const docId = 0
-      const searchType = 1
+      const searchType = this.searchType
       const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
 
       axios.get(url, {
@@ -109,6 +109,10 @@ export default {
         // 处理搜索结果
         this.tableData = response.data.data
         console.log(this.tableData)
+        // 返回分页信息 total pagesize currentpage
+        this.total = response.data.total
+        this.pagesize = response.data.pageSize
+        this.currentPage = response.data.currentPage
       }).catch(error => {
         // 处理错误
         console.log(error)
@@ -121,6 +125,8 @@ export default {
     enterSearch() {
       this.search()
     }
+    // 分页组件连接后端api
+
   }
 
 }
