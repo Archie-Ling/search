@@ -30,7 +30,7 @@
                 <div class="user-points"> 积  分  : {{ userInfo.userPoints }}</div><br>
                 <div class="user-points"> 容  量  : {{ userInfo.userCapacity }}</div>
               </div>
-              <!--              <div class="zhan" style="height: 30px;"><p style="color:white;">.</p></div>-->
+              <div class="zhan" style="height: 10px;"><p style="color:white;">.</p></div>
               <!-- 购买积分按钮 点击后跳转到购买页面buy.vue -->
               <div style="">
                 <el-button type="">

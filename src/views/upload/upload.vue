@@ -29,6 +29,7 @@
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
+          <el-divider style="background-color:white" />
           <el-button
             type="primary"
             :disabled="isDisabled"
