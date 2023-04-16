@@ -44,7 +44,7 @@
           <el-table-column
             prop="size"
             label="文件夹大小"
-            width="180"
+            width="90"
           />
           <el-table-column
             label=""
@@ -106,14 +106,6 @@ import axios from 'axios'
 export default {
   data() {
     return {
-
-      // 编辑对话框是否显示
-      // screenWidth: document.body.clientWidth,
-      // screenHeight: document.body.clientHeight,
-      // // eslint-disable-next-line no-undef
-      // diaglogWidth: screenWidth * 0.4,
-      // // eslint-disable-next-line no-undef
-      // diaglogHeight: screenHeight * 0.4,
       showEditDialog: false,
       showAddDialog: false,
       // 编辑对话框中的数据

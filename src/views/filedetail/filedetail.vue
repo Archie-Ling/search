@@ -149,8 +149,8 @@ export default {
   methods: {
     // 使用使用axios从后端api获取文件夹里面的文献信息 /file/search/{page}/{size}
     getdata() {
-      const page = 1
-      const size = 10
+      const page = this.currentPage
+      const size = this.pageSize
       const url = 'http://192.168.43.61:8081/file/search/' + page + '/' + size
       console.log(url)
       // 使用axios从后端api获取数据 get请求 params传参数
@@ -162,10 +162,11 @@ export default {
       }).then(res => {
         console.log(res)
         // 将获取到的数据赋值给tableData
-        console.log('成功')
+        console.log('成功获取')
         console.log(res.data)
         this.tableData = res.data.data.data
         this.total = res.data.data.all
+        console.log(this.total)
         console.log(this.tableData)
       }).catch(err => {
         console.log('失败')
