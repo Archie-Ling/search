@@ -15,8 +15,6 @@
           <el-table
             :data="bizList"
             style="width: 100%"
-            border
-            stripe
             highlight-current-row
             @row-click="handleRowClick"
           >
@@ -32,10 +30,15 @@
               prop="bizPoint"
               label="商品积分"
             />
+            <!-- 当商品状态为1时，el-tag显示在售 -->
             <el-table-column
               prop="bizStatus"
               label="商品状态"
-            />
+            >
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.bizStatus === 1" type="success">在售</el-tag>
+              </template>
+            </el-table-column>
           </el-table>
           <el-pagination
             :current-page="currentPage"
@@ -71,7 +74,7 @@ export default {
     return {
       bizList: [],
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 5,
       total: 0,
       bizId: '',
       userId: '',

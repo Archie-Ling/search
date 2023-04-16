@@ -55,11 +55,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 分页显示 -->
+        <!-- 分页 每页显示数量size和总数total从后端获取 然后将后端传回的数据分页显示在表格中 -->
         <el-pagination
-          background
-          layout="prev, pager, next"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
         <!-- 点击编辑按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改-->
         <el-dialog
@@ -127,7 +131,7 @@ export default {
         docId: '',
         pdfId: '',
         pdfTitle: '',
-        newDocId:''
+        newDocId: ''
       }
 
     }
@@ -176,10 +180,6 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
-    // 移动
-    /* handleMove() {
-      // 使用axios通过后端api实现弹窗显示文件夹信息，点击文件夹可以将改该文献移动到文件夹里
-    }, */
     // 编辑 使用axios post从后端api编辑一行数据 使用query传参,在点完编辑按钮后弹出窗口进行编辑
     handleEdit(index, row) {
       console.log('编辑')
@@ -238,6 +238,16 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    // 点击分页器中的每页显示数量，触发size-change事件，调用handleSizeChange()方法
+    handleSizeChange(size) {
+      this.pageSize = size
+      this.getdata()
+    },
+    // 点击分页器中的页码，触发current-change事件，调用handleCurrentChange()方法
+    handleCurrentChange(page) {
+      this.currentPage = page
+      this.getdata()
     }
 
   }

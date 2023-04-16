@@ -14,7 +14,7 @@ specifiers:
   chalk: 2.4.2
   connect: 3.6.6
   core-js: 3.6.5
-  element-ui: 2.13.2
+  element-ui: 2.15.3
   eslint: 6.7.2
   eslint-plugin-vue: 6.2.2
   html-webpack-plugin: 3.2.0
@@ -44,7 +44,7 @@ specifiers:
 dependencies:
   axios: 0.18.1
   core-js: 3.6.5
-  element-ui: 2.13.2_vue@2.6.10
+  element-ui: 2.15.3_vue@2.6.10
   js-cookie: 2.2.0
   normalize.css: 7.0.0
   nprogress: 0.2.0
@@ -4864,8 +4864,8 @@ packages:
     resolution: {integrity: sha512-nEftV1dRX3omlxAj42FwqRZT0i4xd2dIg39sog/CnCJeCcL1TRd2Uh0i9Oebgv8Ou0vzTPw++xc+Z20jzS2B6A==}
     dev: true
 
-  /element-ui/2.13.2_vue@2.6.10:
-    resolution: {integrity: sha512-r761DRPssMPKDiJZWFlG+4e4vr0cRG/atKr3Eqr8Xi0tQMNbtmYU1QXvFnKiFPFFGkgJ6zS6ASkG+sellcoHlQ==}
+  /element-ui/2.15.3_vue@2.6.10:
+    resolution: {integrity: sha512-yGcK0AspuC827Nq7GUHct83cywAKIDo+kpp/rtov5ptmK1hZ8FMlt2SKbcozmSabmpdBNroMgqxqXl6IT1zy1A==}
     peerDependencies:
       vue: ^2.5.17
     dependencies:

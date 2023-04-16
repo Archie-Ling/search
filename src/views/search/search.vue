@@ -13,43 +13,47 @@
           <el-col :span="18">
             <el-input v-model="searchText" placeholder="请输入搜索内容" /></el-col>
           <el-col :span="4" offset="1">
-            <el-button type="primary" :enter-search="enterSearch()" @click="search()">搜索</el-button></el-col>
+            <el-button type="primary" @keyup.enter="enterSearch()" @click="search()">搜索</el-button></el-col>
         </el-row>
         <el-divider />
+        <template v-if="tableData.length > 0">
+          <el-table :data="tableData" @row-click="handleRowClick">
+            <el-table-column prop="title" label="文章标题" />
+            <el-table-column prop="pdfPages" label="页数" />
+            <el-table-column prop="score" label="内容相关度" sortable />
+            <el-table-column prop="createtime" label="上传时间" sortable />
+            <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />
+          </el-table>
+          <!-- 分页 每页显示数量size和总数total从后端获取 然后将后端传回的数据分页显示在表格中 -->
+          <el-pagination
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 30]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </template>
 
-        <el-skeleton >
-          <template slot="template">
-            <div style="padding: 14px;">
-              <el-skeleton-item variant="p" style="width: 100%" />
-<!--              eslint-disable-next-line vue/no-unused-vars -->
-              <div v-for=" n in 8" style="margin:20px">
-                <div style="display: flex; align-items: center;justify-content: space-between;">
-                  <el-skeleton-item variant="text" class="item" />
-                  <el-skeleton-item variant="text"  class="item"/>
-                  <el-skeleton-item variant="text"  class="item"/>
-                  <el-skeleton-item variant="text"  class="item"/>
+        <template v-else>
+          <el-skeleton>
+            <template slot="template">
+              <div style="padding: 14px;">
+                <el-skeleton-item variant="p" style="width: 100%" />
+                <!--              eslint-disable-next-line vue/no-unused-vars -->
+                <div v-for=" n in 8" :key="n" style="margin:20px">
+                  <div style="display: flex; align-items: center;justify-content: space-between;">
+                    <el-skeleton-item variant="text" class="item" />
+                    <el-skeleton-item variant="text" class="item" />
+                    <el-skeleton-item variant="text" class="item" />
+                    <el-skeleton-item variant="text" class="item" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
-        </el-skeleton>
-
-<!--        <el-table :data="tableData" @row-click="handleRowClick">-->
-<!--          <el-table-column prop="title" label="文章标题" />-->
-<!--          <el-table-column prop="pdfPages" label="页数" />-->
-<!--          <el-table-column prop="score" label="内容相关度" sortable />-->
-<!--          <el-table-column prop="createtime" label="上传时间" sortable />-->
-<!--          <el-table-column v-if="showAddressColumn" label="" width="0" prop="pdfId" />-->
-<!--        </el-table>-->
-<!--        &lt;!&ndash; 分页 &ndash;&gt;-->
-<!--        <el-pagination-->
-<!--          background-->
-<!--          layout="prev, pager, next"-->
-<!--          :total="total"-->
-<!--          style="margin:10px 0;text-align: center"-->
-<!--          @size-change="handleSizeChange"-->
-<!--          @current-change="handleCurrentChange"-->
-<!--        />-->
+            </template>
+          </el-skeleton>
+        </template>
       </el-col>
     </el-row>
   </div>
@@ -61,11 +65,10 @@ export default {
     return {
       searchText: '',
       tableData: [], // 表格数据
-      currentPage: 1, // 当前页
-      pagesize: 5, // 每页显示条数
+      currentPage: 0, // 当前页
+      pageSize: 10, // 每页显示条数
       total: 0, // 总条数
       showAddressColumn: false
-
     }
   },
   created() {
@@ -94,25 +97,25 @@ export default {
     search() {
       // 调用后端API接口进行搜索
       const searchString = this.searchText
-      const pageNo = 0
-      const pageSize = 10
+      const pageNo = this.currentPage
+      const pageSize = this.pageSize
       const userId = 3
       const docId = 0
-      const searchType = this.searchType
+      const searchType = 1
       const url = 'http://192.168.43.61:8081/search/' + searchString + '/' + pageNo + '/' + pageSize + '/' + userId + '/' + docId + '/' + searchType
 
       axios.get(url, {
         params: {
           searchString: this.searchText
+          // pageNo: this.currentPage,
+          // pageSize: this.pageSize
         }
       }).then(response => {
         // 处理搜索结果
         this.tableData = response.data.data
         console.log(this.tableData)
-        // 返回分页信息 total pagesize currentpage
+        // 返回分页信息 total
         this.total = response.data.total
-        this.pagesize = response.data.pageSize
-        this.currentPage = response.data.currentPage
       }).catch(error => {
         // 处理错误
         console.log(error)
@@ -124,9 +127,17 @@ export default {
     // 搜索框回车事件
     enterSearch() {
       this.search()
+    },
+    // 点击分页器中的每页显示数量，触发size-change事件，调用handleSizeChange()方法
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize
+      this.search()
+    },
+    // 点击分页器中的页码，触发current-change事件，调用handleCurrentChange()方法
+    handleCurrentChange(pageNo) {
+      this.currentPage = pageNo
+      this.search()
     }
-    // 分页组件连接后端api
-
   }
 
 }
