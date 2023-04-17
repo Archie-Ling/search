@@ -91,7 +91,7 @@ export const constantRoutes = [
         path: 'chart',
         name: '分析',
         component: () => import('@/views/chart/chart'),
-        meta: { title: '图表分析', icon: 'chart' }
+        meta: { title: '文献分析', icon: 'chart' }
       }
     ]
   },

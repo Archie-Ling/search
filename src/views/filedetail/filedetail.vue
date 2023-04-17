@@ -60,10 +60,11 @@
           :current-page="currentPage"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :total="total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
+          style="text-align: center"
         />
         <!-- 点击编辑按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改-->
         <el-dialog
@@ -76,7 +77,7 @@
           </template>
           <template #default>
             <el-form :model="editData">
-              <el-form-item label="文件夹名">
+              <el-form-item label="文件夹">
                 <el-select v-model="editData.newDocId" placeholder="请选择">
                   <el-option
                     v-for="item in docData"
@@ -90,10 +91,10 @@
                 <!-- 选择文件夹名后，将另一个输入框里的新选择的newDocId跟着变化 -->
                 <el-input v-show="false" v-model="editData.newDocId" disabled />
               </el-form-item>
-              <el-form-item label="pdfId">
+              <el-form-item label="pdfId" v-show="false">
                 <el-input v-model="editData.pdfId" disabled />
               </el-form-item>
-              <el-form-item label="pdfTitle">
+              <el-form-item label="文献名">
                 <el-input v-model="editData.pdfTitle" />
               </el-form-item>
             </el-form>

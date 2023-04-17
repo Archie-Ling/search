@@ -30,12 +30,13 @@
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
 
-          <el-divider  >
-            <i class="el-icon-upload"></i>
+          <el-divider>
+            <i class="el-icon-upload" />
           </el-divider>
           <el-button
             type="primary"
             size="small"
+            plain
             style="margin-top: 20px"
             :disabled="isDisabled"
             @click="handleDelete"
@@ -59,12 +60,8 @@
             <div slot="tip" class="el-upload__tip">可批量上传PDF文件(限50个)</div>
           </el-upload>
           <el-divider /> -->
-          type="primary"
-          plain
-          :disabled="isDisabled"
-          @click="handleDelete"
-        >识别</el-button>
-          <el-divider  style="background-color:white; border-style: dashed"  />
+
+          <el-divider style="background-color:white; border-style: dashed" />
 
           <!-- “识别”按钮 点击后变成disabled样式持续3秒，并弹出提示：正在识别中，请稍后，在7秒之后弹出提示：识别已完成 -->
           <div style="font-size:20px;font-weight: bolder;margin-bottom: 10px">最近上传文件</div>
@@ -196,10 +193,11 @@ export default {
       console.log(this.pdfTitle)
       console.log('成功返回文件名')
       // 将文件名pdfTitle和userId传回后端，后端返回pdfId
-      axios.post('http://192.168.43.61:8081/file/upload', {
-        pdfTitle: this.pdfTitle,
-        userId: this.userId
-      }).then(
+      axios.post('http://192.168.43.61:8081/file/upload',
+        { params: {
+          pdfTitle: this.pdfTitle,
+          userId: this.userId
+        }}).then(
         (res) => {
           this.pdfId = res.data
           console.log(res.data)
@@ -260,13 +258,15 @@ export default {
         message: '正在识别中，请稍后',
         type: 'warning'
       })
-      setTimeout(() => {
-        this.$message({
-          message: '识别已完成',
-          type: 'success'
-        })
-        this.isDisabled = false
-      }, 4000)
+      this.fileList = []
+      this.fetchSortFiles(this.userId, 1)
+      // setTimeout(() => {
+      //   this.$message({
+      //     message: '识别已完成',
+      //     type: 'success'
+      //   })
+      //   this.isDisabled = false
+      // }, 4000)
     }
     // 点击上传后，将文件上传到服务器，服务器返回文件名,再将文件名pdfTitle和userId传回后端，后端返回pdfId,再将pdfId和userId返回后端
     /* getMessage() {

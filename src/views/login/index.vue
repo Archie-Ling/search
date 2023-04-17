@@ -5,7 +5,7 @@
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
         <div class="title-container">
           <img src="@/icons/svg/logo.png" alt="logo" class="loginlogo">
-          <span class="titleh1"> 医 寻</span>
+          <span class="titleh1">医 寻</span>
           <!-- <h3 class="title">登录界面</h3> -->
         </div>
         <el-form-item prop="username">
@@ -15,7 +15,7 @@
           <el-input
             ref="username"
             v-model="loginForm.username"
-            placeholder="Username"
+            placeholder="Userphone"
             name="username"
             type="text"
             tabindex="1"
@@ -42,8 +42,8 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
-        <a style="color: #454544; margin-bottom: 10px" href="/password_reset?loginWay=mobile">忘记密码？</a>
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+        <a style="color: rgba(69,69,68,0.53); " href="/password_reset?loginWay=mobile">忘记密码？</a>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录/注册</el-button>
         <label class="ant-checkbox-wrapper">
           <span class="ant-checkbox">
             <input type="checkbox" class="ant-checkbox-input" data-testid="protocolCheckBox" value="">
@@ -51,12 +51,12 @@
           <span>   我已阅读并同意医寻<a href="https://www.yuque.com/terms" target="_blank"> 服务协议 </a>和<a href="https://app.nlark.com/mobile-app/pages/privacy-policy.html" target="_blank"> 隐私权政策 </a></span>
         </label>
 
-        <div class="tips">
-          <el-button type="mini" style="margin-right:50px;margin-left: 50px;">忘记密码</el-button>
-          <!-- el-button按钮 跳转到register用户注册页面 -->
-          <el-button type="mini" style="margin-left: 50px;" @click="register">用户注册</el-button>
+<!--        <div class="tips">-->
+<!--          <el-button type="mini" style="margin-right:50px;margin-left: 50px;">忘记密码</el-button>-->
+<!--          &lt;!&ndash; el-button按钮 跳转到register用户注册页面 &ndash;&gt;-->
+<!--          <el-button type="mini" style="margin-left: 50px;" @click="register">用户注册</el-button>-->
 
-        </div>
+<!--        </div>-->
 
       </el-form>
     </el-card>
@@ -87,7 +87,7 @@ export default {
 
     return {
       loginForm: {
-        username: 'admin',
+        username: '13999999999',
         password: '111111'
       },
       loginRules: {
@@ -161,7 +161,7 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#92b6e2;
-$light_gray:#fff;
+$light_gray: #000000;
 $cursor: #000000;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -272,7 +272,8 @@ a{
   .title-container {
     position: relative;
     margin-bottom: 30px;
-
+    text-align: center;
+    //align-items: center;
     // 将loginlogo放在卡片中，和医寻字体并排同等大小,居中显示
     .loginlogo {
       position: absolute;

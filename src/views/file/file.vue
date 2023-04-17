@@ -93,6 +93,24 @@
             </div>
           </template>
         </el-dialog>
+        <el-dialog
+          title="编辑文件夹"
+          :visible.sync="showEditDialog"
+        >
+          <template #default>
+            <el-form :model="editData">
+              <el-form-item label="文件名">
+                <el-input v-model="editData.name" />
+              </el-form-item>
+            </el-form>
+          </template>
+          <template #footer>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="showEditDialog = false">取消</el-button>
+              <el-button type="primary" @click="submitEditData">确定</el-button>
+            </div>
+          </template>
+        </el-dialog>
 
       </el-col>
     </el-row>

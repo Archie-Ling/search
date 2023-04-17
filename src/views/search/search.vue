@@ -27,12 +27,12 @@
           <!-- 分页 每页显示数量size和总数total从后端获取 然后将后端传回的数据分页显示在表格中 -->
           <el-pagination
             :current-page="currentPage"
-            :page-sizes="[5, 10, 20, 30]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
+            background
+            layout="prev, pager, next"
+            :total="this.total"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="text-align: center"
           />
         </template>
 
@@ -66,10 +66,9 @@ export default {
       searchText: '',
       tableData: [], // 表格数据
       currentPage: 0, // 当前页
-      pageSize: 10, // 每页显示条数
-      total: 0, // 总条数
+      pageSize: 5, // 每页显示条数
+      total: 20, // 总条数
       showAddressColumn: false
-
     }
   },
   created() {
@@ -114,13 +113,12 @@ export default {
         this.tableData = response.data.data
         console.log(this.tableData)
         // 返回分页信息 total
-        this.total = response.data.total
+        this.total = 20
       }).catch(error => {
         // 处理错误
         console.log(error)
       })
       console.log('搜索' + this.searchText)
-      console.log(searchString + pageNo + pageSize + userId + docId + searchType)
       console.log(url + 'url')
     },
     // 搜索框回车事件

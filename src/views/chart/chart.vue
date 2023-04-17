@@ -2,12 +2,13 @@
   <div class="chart">
     <el-row>
       <el-col :span="24">
-        <el-card class="box-card">
+        <el-card class="box-card" style="background-color: #fafafa">
           <!-- <el-radio-group v-model="radio" @change="initChart">
             <el-radio-button label="1">柱状图</el-radio-button>
             <el-radio-button label="2">折线图</el-radio-button>
             <el-radio-button label="3">饼图</el-radio-button>
           </el-radio-group> -->
+          <span style="color: #0093d5;font-weight: bolder;font-size: 16px">您的文献数据统计分析图如下</span>
           <div id="main" style="width: 100%; height: 670px;"></div>
         </el-card>
       </el-col>
@@ -36,13 +37,13 @@ export default {
       var option
 
       const colors = [
-        '#6654f1',
-        'rgb(117, 217, 237)',
-        'rgb(246, 192, 246)',
+        '#5a4ad0',
+        'rgb(97,179,196)',
+        'rgb(222,138,222)',
         'rgb(120, 178, 229)',
-        '#eaccf8'
+        '#c1a7cd'
       ]
-      const bgColor = 'white'
+      const bgColor = '#fafafa'
       const itemStyle = {
         star5: {
           color: colors[0]
@@ -64,7 +65,7 @@ export default {
         {
           name: '研究内容',
           itemStyle: {
-            color: colors[1]
+            color: '#effafa'
           },
           children: [
             {
