@@ -1,6 +1,6 @@
 const Mock = require('mockjs')
 const { param2Obj } = require('./utils')
-
+// mock data
 const user = require('./user')
 const table = require('./table')
 
@@ -32,7 +32,6 @@ function mockXHR() {
       let result = null
       if (respond instanceof Function) {
         const { body, type, url } = options
-        // https://expressjs.com/en/4x/api.html#req
         result = respond({
           method: type,
           body: JSON.parse(body),

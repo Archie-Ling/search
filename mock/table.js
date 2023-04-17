@@ -11,6 +11,7 @@ const data = Mock.mock({
   }]
 })
 
+// Compare this snippet from mock\table.js:
 module.exports = [
   {
     url: '/vue-admin-template/table/list',
