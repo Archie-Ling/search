@@ -13,9 +13,8 @@
               <div>
                 <!-- 在线查看PDF -->
                 <el-link type="primary" @click="showPdf"><h1>{{ title }}.PDF</h1></el-link>
-
-                <br />
-                <br />
+                <br>
+                <br>
                 <!-- 点击按钮跳转到pdf.vue页面 -->
                 <el-button type="primary" size="mini" @click="showPdfOL">在线查看</el-button>
                 <!-- 收藏按钮 -->
@@ -116,7 +115,7 @@ export default {
     // 在线查看PDF
     showPdf() {
       // const pdfId = this.pdfId
-      const url = 'https://lkw-edu.oss-cn-chengdu.aliyuncs.com/%E6%9C%8D%E5%8A%A1%E5%A4%96%E5%8C%85%E6%89%BF%E8%AF%BA%E4%B9%A6.pdf'
+      const url = 'https://lkw-edu.oss-cn-chengdu.aliyuncs.com/%E5%9F%BA%E4%BA%8E%E7%98%A4%E5%91%A81_cm%E5%86%85ADC%E5%80%BC...%E6%B5%8B%E8%83%B6%E8%B4%A8%E7%98%A4%E6%9C%AF%E5%90%8E%E8%BF%9B%E5%B1%95%E7%9A%84%E4%B8%B4%E5%BA%8A%E4%BB%B7%E5%80%BC_%E7%A8%8B%E6%A2%A6%E9%9B%A8%20%281%29.pdf'
       window.open(url)
     },
     // 跳转到pdf.vue页面
