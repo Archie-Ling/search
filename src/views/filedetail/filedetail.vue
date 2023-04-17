@@ -62,9 +62,9 @@
           :page-size="pageSize"
           layout="total, prev, pager, next, jumper"
           :total="total"
+          style="text-align: center"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          style="text-align: center"
         />
         <!-- 点击编辑按钮弹窗显示docId,pdfId,pdfTitle 并且可以修改-->
         <el-dialog
@@ -91,7 +91,7 @@
                 <!-- 选择文件夹名后，将另一个输入框里的新选择的newDocId跟着变化 -->
                 <el-input v-show="false" v-model="editData.newDocId" disabled />
               </el-form-item>
-              <el-form-item label="pdfId" v-show="false">
+              <el-form-item v-show="false" label="pdfId">
                 <el-input v-model="editData.pdfId" disabled />
               </el-form-item>
               <el-form-item label="文献名">
@@ -101,8 +101,8 @@
           </template>
           <template #footer>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="showEditDialog = false">取 消</el-button>
-              <el-button type="primary" @click="handleEditSubmit">确 定</el-button>
+              <el-button size="small" @click="showEditDialog = false">取 消</el-button>
+              <el-button size="small" type="primary" @click="handleEditSubmit">确 定</el-button>
             </div>
           </template>
         </el-dialog>

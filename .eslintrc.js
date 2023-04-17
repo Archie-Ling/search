@@ -10,7 +10,8 @@ module.exports = {
     es6: true,
   },
   extends: ['plugin:vue/recommended', 'eslint:recommended'],
-
+  // required to lint *.vue files
+  // required to lint *.vue files
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
@@ -196,3 +197,4 @@ module.exports = {
     'array-bracket-spacing': [2, 'never']
   }
 }
+

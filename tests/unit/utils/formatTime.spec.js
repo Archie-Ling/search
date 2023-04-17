@@ -1,7 +1,8 @@
 import { formatTime } from '@/utils/index.js'
 
+// const d = new Date() // 1531467241000
 describe('Utils:formatTime', () => {
-  const d = new Date('2018-07-13 17:54:01') // "2018-07-13 17:54:01"
+  const d = new Date('2018-07-13 17:54:01') // 1531467241000
   const retrofit = 5 * 1000
 
   it('ten digits timestamp', () => {

@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 tests/**/coverage/
-
+# gitignore
 # Editor directories and files
 .idea
 .vscode
@@ -14,3 +14,4 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
+
