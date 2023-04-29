@@ -10,9 +10,19 @@
         <h2>检索页面</h2>
         <div class="content" style="color: white;">.</div>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="16">
             <el-input v-model="searchText" placeholder="请输入搜索内容" /></el-col>
-          <el-col :span="4" offset="1">
+          <!-- svg图片按钮 鼠标悬浮上去图标会变大 点击以后触发gpt()方法 按钮名叫智慧搜索 -->
+          <el-col :span="2" offset="1">
+            <el-tooltip
+              effect="light"
+              content="猜你想搜"
+              placement="top"
+            >
+              <svg-icon icon-class="ai" class="aiSearch" content="Bottom center" style="font-size: 40px; color: #409EFF; cursor: pointer;" @click="gpt()" />
+            </el-tooltip>
+          </el-col>
+          <el-col :span="3" offset="">
             <el-button type="primary" @keyup.enter="enterSearch()" @click="search()">搜索</el-button></el-col>
         </el-row>
         <el-divider />
@@ -30,9 +40,9 @@
             background
             layout="prev, pager, next"
             :total="this.total"
+            style="text-align: center"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            style="text-align: center"
           />
         </template>
 
@@ -125,6 +135,25 @@ export default {
     enterSearch() {
       this.search()
     },
+    // 智慧搜索
+    gpt() {
+      // 调用后端API接口进行搜索
+      const searchString = this.searchText
+      const gptRequest = searchString
+      const url = 'http://192.168.43.61:8081/ChatGpt/ask/{' + gptRequest + '}'
+      axios.get(url, {
+        params: {
+          gptRequest: this.searchText
+        }
+      }).then(response => {
+        // 处理搜索结果
+        this.searchText = response.data.data
+        console.log(this.searchText)
+      }).catch(error => {
+        // 处理错误
+        console.log(error)
+      })
+    },
     // 点击分页器中的每页显示数量，触发size-change事件，调用handleSizeChange()方法
     handleSizeChange(pageSize) {
       this.pageSize = pageSize
@@ -144,5 +173,23 @@ export default {
 .item{
   width: 20%;
   height: 20px
+}
+
+/* 悬浮出现文字 ai智慧搜索提示 */
+.aiSearch:hover {
+  transform: scale(1.2);
+  transition: all 0.5s;
+  cursor: pointer;
+  color: #409EFF;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #409EFF;
+
+}
+.aiSearch{
+  color: #409EFF;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #409EFF;
 }
 </style>
